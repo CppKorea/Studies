@@ -3,10 +3,17 @@
 
 ## 진행 계획
 
+진행 및 일정 조율을 위한 연락처
+
+* 박동하 luncliff@gmail.com
+* 김정택 
+
 ### 학습 시간
 
-* 주 1회, 7주간 진행합니다.
+* 주 1회, 2021년 7월 10일부터 7주 동안 진행
 * 매 주 토요일 03:00 PM ~ 04:30 PM (1시간 30분)
+
+[Google Calendar Event: "CMake 뽀개버리기(C++ Korea 2021)"](https://calendar.google.com/event?action=TEMPLATE&tmeid=czJ1YXA0MmthdjJsM200aW0wYjhoMDYydDRfMjAyMTA3MTBUMDYwMDAwWiBsdW5jbGlmZkBt&tmsrc=luncliff%40gmail.com&scp=ALL)
 
 ### 학습 목표
 
