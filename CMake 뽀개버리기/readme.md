@@ -13,7 +13,7 @@
 * 주 1회, 2021년 7월 10일부터 7주 동안 진행
 * 매 주 토요일 03:00 PM ~ 04:30 PM (1시간 30분)
 
-[Google Calendar Event: "CMake 뽀개버리기(C++ Korea 2021)"](https://calendar.google.com/event?action=TEMPLATE&tmeid=czJ1YXA0MmthdjJsM200aW0wYjhoMDYydDRfMjAyMTA3MTBUMDYwMDAwWiBsdW5jbGlmZkBt&tmsrc=luncliff%40gmail.com&scp=ALL)
+[Google Calendar Event: "CMake 뽀개버리기(C++ Korea 2021)"](https://calendar.google.com/event?action=TEMPLATE&tmeid=MWltZmM0bXV0NmVlM3VwZjVrbzZ0NHY1azBfMjAyMTA3MTdUMDYwMDAwWiBsdW5jbGlmZkBt&tmsrc=luncliff%40gmail.com&scp=ALL)
 
 ### 학습 목표
 
