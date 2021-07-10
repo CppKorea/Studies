@@ -6,7 +6,7 @@
 진행 및 일정 조율을 위한 연락처
 
 * 박동하 luncliff@gmail.com
-* 김정택 
+* 김정택 kjtkjt21@gmail.com
 
 ### 학습 시간
 
