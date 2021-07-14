@@ -13,13 +13,13 @@
 
 ### Build Target
 
-#### [`add_library`](https://cmake.org/cmake/help/latest/command/add_library.html)
+#### [add_library](https://cmake.org/cmake/help/latest/command/add_library.html)
 
 ```cmake
 # ...
 ```
 
-#### [`add_executable`](https://cmake.org/cmake/help/latest/command/add_executable.html)
+#### [add_executable](https://cmake.org/cmake/help/latest/command/add_executable.html)
 
 ```cmake
 # ...
@@ -35,13 +35,13 @@
 
 ### Command
 
-#### [`add_custom_command`](https://cmake.org/cmake/help/latest/command/add_custom_command.html)
+#### [add_custom_command](https://cmake.org/cmake/help/latest/command/add_custom_command.html)
 
 ```cmake
 # ...
 ```
 
-#### [`execute_process`](https://cmake.org/cmake/help/latest/command/execute_process.html)
+#### [execute_process](https://cmake.org/cmake/help/latest/command/execute_process.html)
 
 ```cmake
 # ...
@@ -54,7 +54,6 @@
 ```cmake
 # ...
 ```
-
 
 #### [if/elseif/else](https://cmake.org/cmake/help/latest/command/if.html)
 
@@ -82,21 +81,13 @@
 # ...
 ```
 
-[`if(<variable|string> MATCHES regex)`](https://cmake.org/cmake/help/latest/command/if.html#comparisons)
-
-```cmake
-# ...
-```
-
 [`if(<variable|string> LESS <variable|string>)`](https://cmake.org/cmake/help/latest/command/if.html#comparisons)
 
 ```cmake
 # ...
 ```
 
-#### 설치 지원
+#### [install](https://cmake.org/cmake/help/latest/command/install.html)
 
 Q. 왜 프로젝트가 설치를 지원해야 하는걸까?
 
-
-[`install`](https://cmake.org/cmake/help/latest/command/install.html)
