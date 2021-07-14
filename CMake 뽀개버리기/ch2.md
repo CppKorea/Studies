@@ -11,44 +11,92 @@
 
 ## 스터디 노트
 
-> TBA
-
-```
-cmake --system-information a.txt
-```
-
 ### Build Target
 
 #### [`add_library`](https://cmake.org/cmake/help/latest/command/add_library.html)
 
+```cmake
+# ...
+```
+
 #### [`add_executable`](https://cmake.org/cmake/help/latest/command/add_executable.html)
+
+```cmake
+# ...
+```
 
 ### Custom Target
 
 #### [add_custom_target](https://cmake.org/cmake/help/latest/command/add_custom_target.html)
 
+```cmake
+# ...
+```
+
 ### Command
 
 #### [`add_custom_command`](https://cmake.org/cmake/help/latest/command/add_custom_command.html)
 
+```cmake
+# ...
+```
+
 #### [`execute_process`](https://cmake.org/cmake/help/latest/command/execute_process.html)
+
+```cmake
+# ...
+```
 
 ### 알려진 변수들, 패턴, 표현식
 
 #### [Build variables](https://cmake.org/cmake/help/latest/guide/user-interaction/index.html#setting-build-variables)
 
-#### [`if`/`elseif`/`else`](https://cmake.org/cmake/help/latest/command/if.html)
+```cmake
+# ...
+```
 
-##### [`if((condition) AND (condition OR (condition)))`](https://cmake.org/cmake/help/latest/command/if.html#logic-operators)
 
-##### [`if(TARGET target-name)`](https://cmake.org/cmake/help/latest/command/if.html#existence-checks)
+#### [if/elseif/else](https://cmake.org/cmake/help/latest/command/if.html)
 
-##### [`if(DEFINED <name>|CACHE{<name>}|ENV{<name>})`](https://cmake.org/cmake/help/latest/command/if.html#existence-checks)
+[`if((condition) AND (condition OR (condition)))`](https://cmake.org/cmake/help/latest/command/if.html#logic-operators)
 
-##### [`if(EXISTS path-to-file-or-directory)`](https://cmake.org/cmake/help/latest/command/if.html#file-operations)
+```cmake
+# ...
+```
 
-##### [`if(<variable|string> MATCHES regex)`](https://cmake.org/cmake/help/latest/command/if.html#comparisons)
+[`if(TARGET target-name)`](https://cmake.org/cmake/help/latest/command/if.html#existence-checks)
 
-##### [`if(<variable|string> LESS <variable|string>)`](https://cmake.org/cmake/help/latest/command/if.html#comparisons)
+```cmake
+# ...
+```
 
-#### [`install`](https://cmake.org/cmake/help/latest/command/install.html)
+[`if(DEFINED <name>|CACHE{<name>}|ENV{<name>})`](https://cmake.org/cmake/help/latest/command/if.html#existence-checks)
+
+```cmake
+# ...
+```
+
+[`if(EXISTS path-to-file-or-directory)`](https://cmake.org/cmake/help/latest/command/if.html#file-operations)
+
+```cmake
+# ...
+```
+
+[`if(<variable|string> MATCHES regex)`](https://cmake.org/cmake/help/latest/command/if.html#comparisons)
+
+```cmake
+# ...
+```
+
+[`if(<variable|string> LESS <variable|string>)`](https://cmake.org/cmake/help/latest/command/if.html#comparisons)
+
+```cmake
+# ...
+```
+
+#### 설치 지원
+
+Q. 왜 프로젝트가 설치를 지원해야 하는걸까?
+
+
+[`install`](https://cmake.org/cmake/help/latest/command/install.html)
