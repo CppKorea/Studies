@@ -2,6 +2,8 @@
 
 ### 참고자료
 
+
+* [Andreas Reischuck "Cross Compiling with CMake"](https://www.youtube.com/watch?v=rgWwrzZLVR8)
 * ...
 
 ## 스터디 노트
