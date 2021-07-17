@@ -251,11 +251,22 @@ Q. 여기서는 왜 PUBLIC이 사용되었을까요? 어떤 경우에 PRIVATE이
 여기서 라이브러리 대신 Build Target 혹은 Imported Target을 주는 것이 가능합니다.
 
 ```cmake
+add_library(sub1 # Build Target
+    src1.cpp
+)
+
+target_link_libraries(main
+PRIVATE
+    sub1
+)
+```
+
+```cmake
 find_package(Threads REQUIRED)
 
 target_link_libraries(main
 PRIVATE
-    Threads::Threads
+    Threads::Threads # Imported Target
 )
 ```
 
