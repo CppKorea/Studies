@@ -45,7 +45,7 @@ add_library(main
 ```
 
 Header-only 라이브러리를 만들 때는 [Interface target](https://cmake.org/cmake/help/latest/command/add_library.html#id4)을 사용합니다.
-이때는 소스 파일들을 주지 않아도 괜찮습니다.
+이때는 소스 파일들을 주지 않아도 괜찮습니다. 물론 다른 설정들이 나중에 추가되어야합니다.
 
 ```cmake
 add_library(main INTERFACE)
@@ -60,7 +60,7 @@ add_executable(main
 )
 ```
 
-Apple 대상이라면 Objective-C++, Swift를 써야 할수도 있겠죠...
+Apple 플랫폼을 위한 프로젝트라면 Objective-C++, Swift를 써야 할수도 있겠죠...
 
 ```cmake
 enable_language(OBJCXX)
@@ -280,7 +280,38 @@ endif()
 순서를 제어해야 할때는 [`add_dependencies`](https://cmake.org/cmake/help/latest/command/add_dependencies.html)를 사용합니다.
 
 ```cmake
+find_package(Git REQUIRED)
 
+add_custom_target(check1
+    COMMAND ${GIT_EXECUTABLE} --version
+    COMMENT "target - check1"
+)
+add_custom_target(check2
+    COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
+    COMMENT "target - check2"
+)
+add_dependencies(check2 check1)
+```
+
+이렇게 생성된 Target들을 CLI에서 실행해볼 수 있습니다.
+
+```console
+user@host$ cmake .
+...
+-- Configuring done
+-- Generating done
+-- Build files have been written to: ...
+user@host$ cmake --build . --target check1
+...
+  target - check1
+  git version 2.31.1.windows.1
+user@host$ cmake --build . --target check2
+...
+
+  target - check1
+  git version 2.31.1.windows.1
+  target - check2
+  b8f4223ebfc59f7e1b57f93995832406afadbc2b
 ```
 
 ### Command
@@ -328,15 +359,35 @@ https://cmake.org/cmake/help/latest/command/add_custom_command.html#build-events
 
 #### [execute_process](https://cmake.org/cmake/help/latest/command/execute_process.html)
 
+명령을 실행한다는 점에서, `add_custom_target`과 유사하지만, 차이점은 실행하는 시간이 다르다는 것입니다.
+`add_custom_target`이 빌드 시간에, `execute_process`는 Configure 시간에 실행됩니다.
+
 ```cmake
+find_package(Git REQUIRED)
+
+execute_process(
+    COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    OUTPUT_VARIABLE COMMIT_ID
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ENCODING UTF-8
+)
+message(STATUS "Current commit: ${COMMIT_ID}")
 # ...
+
+target_compile_definitions(main
+PRIVATE
+    BUILD_COMMIT_ID="${COMMIT_ID}"
+)
 ```
+
+이제까지의 내용을 바탕으로, CMake 프로젝트는 Configure / Generate / Build 시간을 가지며, 각각 어느때에 사용되는지 이해해야 한다는 것을 알 수 있습니다.
 
 ### 알려진 변수들, 패턴, 표현식
 
 #### [Build variables](https://cmake.org/cmake/help/latest/guide/user-interaction/index.html#setting-build-variables)
 
-[CMake 사용자 가이드](https://cmake.org/cmake/help/latest/guide/user-interaction)에서 소개하는 변수들을 살펴봅니다.
+[CMake 사용자 상호작용 가이드](https://cmake.org/cmake/help/latest/guide/user-interaction)에서 소개하는 변수들을 살펴봅니다.
 
 ```bash
 mkdir -p build && pushd build
@@ -365,7 +416,7 @@ popd
 
 #### [install](https://cmake.org/cmake/help/latest/command/install.html)
 
-Q. 왜 프로젝트가 설치를 지원해야 할까요?
+Q. 왜 프로젝트가 [설치](https://dic.daum.net/word/view.do?wordid=kkw000141569&supid=kku000177298)를 지원해야 할까요?
 
 ```cmake
 install(FILES   LICENSE.txt
@@ -398,15 +449,23 @@ install(FILES           ${VERSION_FILE_PATH}
 )
 ```
 
+설치된 파일들을 확인해봅시다.
+
+Q. 어떤 파일들이 더 추가로 '설치'되어야 할까요?
+
+
 ### 복잡함 피하기
 
 #### CMAKE_ 변수
 
-> TBA
+대표적으로 CMAKE_CXX_STANDARD가 있는데, 이 변수의 사용사례를 가지고 생각해보겠습니다.
 
 ```cmake
 # ...
 ```
 
 #### [target_compile_features](https://cmake.org/cmake/help/latest/manual/cmake-compile-features.7.html)
+
+이것은 CMake 고유성이 강합니다. 
+[CMAKE_CXX_KNOWN_FEATURES](https://cmake.org/cmake/help/latest/prop_gbl/CMAKE_CXX_KNOWN_FEATURES.html#prop_gbl:CMAKE_CXX_KNOWN_FEATURES) 문서를 살펴보겠습니다.
 
