@@ -270,6 +270,12 @@ PRIVATE
 )
 ```
 
+
+#### [target_link_directories](https://cmake.org/cmake/help/latest/command/target_link_directories.html)
+
+> TBA
+
+
 #### [target_link_options](https://cmake.org/cmake/help/latest/command/target_link_options.html)
 
 마지막으로 Linker 설정입니다.
