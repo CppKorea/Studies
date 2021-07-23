@@ -8,9 +8,18 @@
 * CppCon 2018 [Mateusz Pusz "Git, CMake, Conan - How to ship and reuse our C++ projects"](https://www.youtube.com/watch?v=S4QSKLXdTtA)
 * https://github.com/TheLartians/PackageProject.cmake
 * https://github.com/cpm-cmake/CPM.cmake
+* Conan C/C++ Package Manger
+    * [Getting Started](https://docs.conan.io/en/latest/getting_started.html)
+    * [Integration/CMake](https://docs.conan.io/en/latest/integrations/build_system/cmake.html)
 
 ## 스터디 노트
 
 > TBA
 
 ### Package Manager - [Conan](https://docs.conan.io/en/latest/introduction.html)
+
+### CMake Presets
+
+* [An Introduction to CMakePresets.json](https://www.youtube.com/watch?v=NFbnm1t6Mc4)
+* https://cmake.org/cmake/help/latest/guide/user-interaction/index.html#presets
+
