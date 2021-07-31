@@ -325,8 +325,7 @@ INTERFACE
 이때는 [INTERFACE_LINK_LIBRARIES](https://cmake.org/cmake/help/latest/prop_tgt/INTERFACE_LINK_LIBRARIES.html)를 설정합니다.
 
 실제로 CMake에서 어떻게 사용하는지 한번 보면 좋을 것 같습니다.
-[Exporting Targets]
-(https://cmake.org/cmake/help/latest/guide/importing-exporting/index.html#exporting-targets)의 내용을 바탕으로, 
+[Exporting Targets](https://cmake.org/cmake/help/latest/guide/importing-exporting/index.html#exporting-targets)의 내용을 바탕으로, 
 
 ```cmake
 cmake_minimum_required(VERSION 3.13)
