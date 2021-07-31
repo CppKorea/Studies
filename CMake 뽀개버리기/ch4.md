@@ -141,7 +141,7 @@ include(FindThreads) # Bad & ambiguous
 
 아래와 같이 사용하는 것을 상정하고 있습니다.
 
-```
+```cmake
 find_package(Threads) # Threads::Threads
 ```
 
@@ -150,9 +150,24 @@ find_package(Threads) # Threads::Threads
 #### [FindPkgConfig](https://cmake.org/cmake/help/latest/module/FindPkgConfig.html)
 
 프로젝트 의존성을 관리할 때 사용하는 여러 도구들 중 하나로 `pkg-config`가 있습니다.
+CMake에서도 이 모듈을 사용하면 .pc 파일을 재사용할 수 있습니다.
+꽤 오래전부터 있던 모듈이지만, 개인적으로는 Imported Taget들은 프로젝트 전체에서 사용할 수 있도록 해주는 GLOBAL 옵션이 사용할 수 있도록 3.15 버전 이상을 권합니다.
 
 ```cmake
+cmake_minimum_required(VERSION 3.15)
 find_package(PkgConfig REQUIRED)
+```
+
+`PkgConfig::` 네임스페이스에 module spec에 사용한 target 이름이 추가됩니다.
+간단히 `target_link_libraries`를 하는 것으로 import를 마칠 수 있습니다.
+
+```cmake
+pkg_check_modules(liburing REQUIRED IMPORTED_TARGET GLOBAL liburing>=2.0)
+    
+target_link_libraries(main
+PRIVATE
+    PkgConfig::liburing
+)
 ```
 
 #### [FindPNG](https://cmake.org/cmake/help/latest/module/FindPNG.html)
