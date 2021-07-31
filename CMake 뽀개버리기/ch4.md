@@ -151,7 +151,7 @@ find_package(Threads) # Threads::Threads
 
 프로젝트 의존성을 관리할 때 사용하는 여러 도구들 중 하나로 `pkg-config`가 있습니다.
 CMake에서도 이 모듈을 사용하면 .pc 파일을 재사용할 수 있습니다.
-꽤 오래전부터 있던 모듈이지만, 개인적으로는 Imported Taget들은 프로젝트 전체에서 사용할 수 있도록 해주는 GLOBAL 옵션이 사용할 수 있도록 3.15 버전 이상을 권합니다.
+꽤 오래전부터 있던 모듈이지만, 개인적으로는 Imported Taget들을 '프로젝트 전체'에서 사용할 수 있도록 해주는 GLOBAL 옵션을 사용할 수 있도록 3.15 버전 이상을 권합니다.
 
 ```cmake
 cmake_minimum_required(VERSION 3.15)
