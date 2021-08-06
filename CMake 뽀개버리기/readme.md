@@ -82,7 +82,7 @@ CMake 고유 문법의 기초적인 부분과, 먼저 알아야 하는 개념들
    * Header only
    * Static
    * Dynamic
-1. C++ 20 Modules (CMake 기능 지원 확인 중)
+1. ~~C++ 20 Modules (CMake 기능 지원 확인 중)~~
 1. 오류 메시지 이해하기 - 3
 
 ### [6. 소스 코드, 패키징, 의존성 관리](./ch6.md)
