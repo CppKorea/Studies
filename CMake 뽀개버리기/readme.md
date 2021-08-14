@@ -92,12 +92,12 @@ CMake 고유 문법의 기초적인 부분과, 먼저 알아야 하는 개념들
 
 1. 파일트리 관리
 1. 프로젝트 레벨
-1. 프로젝트 간의 충돌 상황 만들어보기
+1. ~~프로젝트 간의 충돌 상황 만들어보기~~
 1. CPack
 1. Conan 패키지 매니저
-    * conanfile.txt 작성
+    * conanfile 작성
     * Conan에서 생성하는 CMake 스크립트 분석
-1. pkg-config
+1. ~~pkg-config~~
 
 ### [7. Cross Compile 프로젝트의 빌드 설계](./ch7.md)
 
