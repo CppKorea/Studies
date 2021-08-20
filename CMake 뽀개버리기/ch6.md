@@ -368,9 +368,3 @@ include(CPack)
 
 앞서의 내용과 합쳐서 한번 실행해보도록 하겠습니다.
 
-### CMake Presets
-
-* [An Introduction to CMakePresets.json](https://www.youtube.com/watch?v=NFbnm1t6Mc4)
-* https://cmake.org/cmake/help/latest/guide/user-interaction/index.html#presets
-
-최신 버전에서는 CMake 실행을 좀 더 간단히 해주는 Presets 기능이 추가되었습니다.
