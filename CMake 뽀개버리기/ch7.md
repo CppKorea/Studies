@@ -237,6 +237,27 @@ Compiler/Linker 툴의 이름, 옵션도 확인할 수 있습니다.
 }
 ```
 
+#### Framework
+
+.framework 파일을 생성할 때는 [`FRAMEWORK`](https://cmake.org/cmake/help/latest/prop_tgt/FRAMEWORK.html)와 관련 속성값들을 설정해줘야 합니다.
+
+```cmake
+set_target_properties(sample
+PROPERTIES
+    FRAMEWORK TRUE
+    FRAMEWORK_VERSION A
+    VERSION   ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION_MAJOR}.0
+    MACOSX_FRAMEWORK_IDENTIFIER "dev.luncliff"
+    # XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "-"
+)
+
+install(TARGETS sample
+        EXPORT  sample-config
+        FRAMEWORK   DESTINATION ${CMAKE_INSTALL_PREFIX}
+)
+```
+
 #### ios.toolchain.cmake 리뷰
 
 > 이 툴체인은 Google에서 시작되어...
