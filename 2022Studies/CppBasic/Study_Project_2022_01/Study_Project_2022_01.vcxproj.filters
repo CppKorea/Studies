@@ -33,9 +33,6 @@
     <ClCompile Include="Src\Study_IO.cpp">
       <Filter>소스 파일\Src</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Study_Status.cpp">
-      <Filter>소스 파일\Src</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Grouping\headers_custom.h">
@@ -44,16 +41,10 @@
     <ClInclude Include="Include\Grouping\headers_std.h">
       <Filter>헤더 파일\Include\Grouping</Filter>
     </ClInclude>
-    <ClInclude Include="Include\program_utill.h">
-      <Filter>헤더 파일\Include</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Schedule.h">
       <Filter>헤더 파일\Include</Filter>
     </ClInclude>
     <ClInclude Include="Include\Study_IO.h">
-      <Filter>헤더 파일\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Study_Status.h">
       <Filter>헤더 파일\Include</Filter>
     </ClInclude>
   </ItemGroup>

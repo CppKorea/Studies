@@ -143,16 +143,13 @@
   <ItemGroup>
     <ClCompile Include="Src\Schedule.cpp" />
     <ClCompile Include="Src\Study_IO.cpp" />
-    <ClCompile Include="Src\Study_Status.cpp" />
     <ClCompile Include="Study_Project_2022_01.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Grouping\headers_custom.h" />
     <ClInclude Include="Include\Grouping\headers_std.h" />
-    <ClInclude Include="Include\program_utill.h" />
     <ClInclude Include="Include\Schedule.h" />
     <ClInclude Include="Include\Study_IO.h" />
-    <ClInclude Include="Include\Study_Status.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

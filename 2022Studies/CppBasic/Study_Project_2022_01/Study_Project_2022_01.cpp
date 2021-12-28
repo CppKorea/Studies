@@ -15,16 +15,10 @@
 int main()
 {
 	int ExitCode = 0;
-	Manager::Initialize();
-	Manager::Status* StatusMgr = Manager::Status::GetInstance();
 
 	try
 	{
-		while (StatusMgr->CheckNormalState())
-		{
-			//실행 루프
-			StatusMgr->SetProgramState(Manager::PROGRAM_STATE::EXIT);
-		}
+
 	}
 	catch (std::exception _excep)
 	{
@@ -34,8 +28,6 @@ int main()
 	{
 		ExitCode = 2;
 	}
-
-	Manager::Release();
 
 	return ExitCode;
 }
