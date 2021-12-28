@@ -18,7 +18,7 @@ namespace Manager
 // 아래 USE_OLD_ENUM에 의해 발생하는 차이는 한 번 찾아보시는 것이 좋다고 생각합니다.
 // enum과 enum class의 차이입니다.
 #ifdef USE_OLD_ENUM
-	enum PROGRAM_STATE
+	enum PROGRAM_RUN_STATE
 	{
 		UNKNOWN			//알 수 없는 상태입니다.
 		, INITIALIZE	//초기화 중입니다.
@@ -28,7 +28,7 @@ namespace Manager
 		, EXIT			//종료중입니다.
 	};
 #else
-	enum class PROGRAM_STATE
+	enum class PROGRAM_RUN_STATE
 	{
 		UNKNOWN			//알 수 없는 상태입니다.
 		, INITIALIZE	//초기화 중입니다.
@@ -38,6 +38,17 @@ namespace Manager
 		, EXIT			//종료중입니다.
 	};
 #endif
+
+	enum class PROGRAM_WORK_STATE
+	{
+		UNKNOWN			//알 수 없는 상태입니다.
+		, INITIALIZE	//초기화 중입니다.
+		, IDLE			//대기 상태입니다.
+		, TASK_CREATE	//작업을 생성하고 있습니다.
+		, TASK_EDIT		//작업을 수정하고 있습니다.
+		, TASK_DELETE	//작업을 삭제하고 있습니다.
+		, EXIT			//종료중입니다.
+	};
 
 	class Status
 	{
@@ -53,10 +64,20 @@ namespace Manager
 		//~@@'단일자 구조(Singleton Pattern)'
 
 		//프로그램에 문제가 발생하지 않았는지 확인합니다.
-		bool CheckNormalState();
+		bool CheckProgramRunSanity();
 
-		//프로그램의 상태가 변경되어야 할 때 사용합니다
-		PROGRAM_STATE SetProgramState(PROGRAM_STATE _CurrentState);
+		//현재 프로그램의 실행 상태를 얻어옵니다.
+		PROGRAM_RUN_STATE GetProgramRunState();
+		//현재 프로그램의 동작 상태를 얻어옵니다.
+		PROGRAM_WORK_STATE GetProgramWorkState();
+
+		//프로그램의 실행 상태가 변경되어야 할 때 사용합니다
+		//이전 상태를 반환해서 Set한 값이 이전 값과 다를 때 처리를 할 수 있도록 합니다.
+		PROGRAM_RUN_STATE SetProgramRunState(PROGRAM_RUN_STATE _CurrentState);
+
+		//프로그램의 동작 상태가 변경되어야 할 때 사용합니다
+		//이전 상태를 반환해서 Set한 값이 이전 값과 다를 때 처리를 할 수 있도록 합니다.
+		PROGRAM_WORK_STATE SetProgramWorkState(PROGRAM_WORK_STATE _CurrentState);
 
 	private:
 		//@@'단일자 구조(Singleton Pattern)'
@@ -73,9 +94,16 @@ namespace Manager
 	public:
 
 	private:
-		PROGRAM_STATE m_programState;
+		//'클래스 소속 변수(Class Member Value)' 입니다.
+		//Class는 메모리 레이아웃상 vtable / value 의 순으로 정렬되므로, 함수의 아래에 배치하였습니다.
+		//어디까지나 제 습관입니다.
+		PROGRAM_RUN_STATE m_programRunState;
+		PROGRAM_WORK_STATE m_programWorkState;
 
 		//@@'단일자 구조(Singleton Pattern)'
+		//프로그램에서 유일하게 존재하는 객체를 선언합니다.
+		//클래스 안에 선언하면 클래스 명으로 namespace 효과를 받기 때문에 패턴을 구현할때 동일한 변수명을 사용할 수 있어서 좋습니다.
+		//정 클래스 안에 넣기 싫으시다면 외부에 선언하더라도 프로그램 전역에서 딱 하나의 객체만 유지되면 아무 이상이 없다고 생각합니다.
 		static Status* m_Instance;
 		//~@@'단일자 구조(Singleton Pattern)'
 	};
