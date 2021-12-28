@@ -1,4 +1,4 @@
-#include "Study_Status.h"
+#include "headers_custom.h"
 
 namespace Manager
 {
@@ -71,8 +71,8 @@ namespace Manager
 
 	PROGRAM_RUN_STATE Status::SetProgramRunState(PROGRAM_RUN_STATE _CurrentState)
 	{
-		//이 동작은 헤더 하단의 설명에서 위험한 경우가 발생하는 경우 중 하나입니다.
 		PROGRAM_RUN_STATE prevState = m_programRunState;
+		//이 동작은 헤더 하단의 설명에서 위험한 경우가 발생하는 경우 중 하나입니다.
 		m_programRunState = _CurrentState;
 
 		return prevState;
@@ -80,8 +80,8 @@ namespace Manager
 
 	PROGRAM_WORK_STATE Status::SetProgramWorkState(PROGRAM_WORK_STATE _CurrentState)
 	{
-		//이 동작은 헤더 하단의 설명에서 위험한 경우가 발생하는 경우 중 하나입니다.
 		PROGRAM_WORK_STATE prevState = m_programWorkState;
+		//이 동작은 헤더 하단의 설명에서 위험한 경우가 발생하는 경우 중 하나입니다.
 		m_programWorkState = _CurrentState;
 
 		return prevState;
