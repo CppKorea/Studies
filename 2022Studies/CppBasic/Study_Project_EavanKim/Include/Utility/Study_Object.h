@@ -64,28 +64,22 @@ namespace Default
 	class Study_Ptr
 	{
 	public:
-		explicit Study_ptr(T* _Target)
+		Study_Ptr(T* _Target)
 		{
-			Data = _Target;
-			Data->IncreaseReference();
+			data = _Target;
+			data->IncreaseReference();
 		}
 
-		explicit Study_ptr(Study_ptr& _Copy)
-			: Data(_Copy.Data)
+		Study_Ptr(Study_Ptr& _Copy)
 		{
-			Data->IncreaseReference();
+			data = _Copy.data;
+			data->IncreaseReference();
 		}
 
-		explicit Study_ptr(Study_ptr&& _Copy)
-			: Data(_Copy.Data)
+		void Copy(Study_Ptr& _Dest, Study_Ptr& _Source)
 		{
-			Data->IncreaseReference();
-		}
-
-		void Copy(Study_ptr& _Dest, Study_ptr& _Source)
-		{
-			_Dest.Data = _Source.Data;
-			_Dest.Data->IncreaseReference();
+			_Dest.data = _Source.data;
+			_Dest.data->IncreaseReference();
 		}
 
 		//smart pointer¿¡¼­ 
