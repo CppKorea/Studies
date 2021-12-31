@@ -21,14 +21,13 @@
 
 namespace Default
 {
+	//레퍼런스 카운트가 어디서 생성되었는가로 숫자가 달라지면 안되므로, 최상위 상속 객체를 지정하고 이곳에 저장합니다.
+	//포인터로 접근하는 객체가 카운트를 들고 있으므로, 어떤 때에도 카운트를 바라봅니다.
 	class Study_Object
 	{
 	public:
-		//생성을 할 때, 생성을 하면서 가져간 대상이 있을테니 카운트를 1 증가해줍니다.
-		//즉, 이름없는 인스턴스를 Heap에 생성하면 카운트가 영원히 감소하지 않을 수 있습니다.
-		//주의 하여주세요.
 		explicit Study_Object()
-			: m_referenceCount(1)
+			: m_referenceCount(0)
 		{
 
 		}
@@ -59,16 +58,39 @@ namespace Default
 		int64_t m_referenceCount = 0;
 	};
 
-
+	//Thread-Safe 처리가 없으므로 그냥 사용하기엔 위험합니다.
+	//기본적으로 Single Threading 상태에서의 사용을 가정합니다.
 	template<class T = Study_Object>
 	class Study_Ptr
 	{
 	public:
+		explicit Study_ptr(T* _Target)
+		{
+			Data = _Target;
+			Data->IncreaseReference();
+		}
 
+		explicit Study_ptr(Study_ptr& _Copy)
+			: Data(_Copy.Data)
+		{
+			Data->IncreaseReference();
+		}
+
+		explicit Study_ptr(Study_ptr&& _Copy)
+			: Data(_Copy.Data)
+		{
+			Data->IncreaseReference();
+		}
+
+		void Copy(Study_ptr& _Dest, Study_ptr& _Source)
+		{
+			_Dest.Data = _Source.Data;
+			_Dest.Data->IncreaseReference();
+		}
+
+		//smart pointer에서 
 		T* Get()
 		{
-			data->IncreaseReference();
-
 			return data;
 		}
 
