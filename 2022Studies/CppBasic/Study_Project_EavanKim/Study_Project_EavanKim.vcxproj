@@ -116,8 +116,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)/Include;$(ProjectDir)/Include/Grouping;$(ProjectDir)/Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)/Include;$(ProjectDir)/Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,18 +141,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Schedule.cpp" />
-    <ClCompile Include="Src\Study_IO.cpp" />
-    <ClCompile Include="Src\Study_Status.cpp" />
+    <ClCompile Include="Src\Function\Study_Schedule.cpp" />
+    <ClCompile Include="Src\Function\Study_Task.cpp" />
+    <ClCompile Include="Src\Utility\Study_Localize.cpp" />
+    <ClCompile Include="Src\Utility\Study_Status.cpp" />
     <ClCompile Include="Study_Project_EavanKim.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Function\Study_Schedule.h" />
+    <ClInclude Include="Include\Function\Study_Task.h" />
     <ClInclude Include="Include\Grouping\headers_custom.h" />
     <ClInclude Include="Include\Grouping\headers_std.h" />
-    <ClInclude Include="Include\program_utill.h" />
-    <ClInclude Include="Include\Schedule.h" />
-    <ClInclude Include="Include\Study_IO.h" />
-    <ClInclude Include="Include\Study_Status.h" />
+    <ClInclude Include="Include\Utility\program_utill.h" />
+    <ClInclude Include="Include\Utility\Study_IO.h" />
+    <ClInclude Include="Include\Utility\Study_Localize.h" />
+    <ClInclude Include="Include\Utility\Study_Object.h" />
+    <ClInclude Include="Include\Utility\Study_Status.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Resource\Localize_En">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Resource\Localize_Ko">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

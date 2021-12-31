@@ -1,4 +1,4 @@
-#include "headers_custom.h"
+#include "Grouping/headers_custom.h"
 
 namespace Manager
 {
@@ -9,7 +9,7 @@ namespace Manager
 	//Debug에서는 디버깅을 위해 할당되는 값들을 알아서 0으로 정렬해주는 등의 친절을 배풀다가
 	//Release에서는 최적화로 초기화가 안되는 바람에 엉뚱한 충돌이 발생하기도 합니다.
 	//이는 굳이 단일자가 아니더라도 '포인터'를 사용할때 가장 중요한 처리입니다.
-	Status* Status::m_Instance = nullptr;
+	Status* Status::m_instance = nullptr;
 	//~@@'단일자 구조(Singleton Pattern)'
 
 //Public Function
@@ -19,10 +19,10 @@ namespace Manager
 		//정적 객체인 m_Instance는 올바르게 사용한다면 프로그램 전체에서 유일하게 존재하는 변수명입니다.
 		//단일자는 프로그램 전체에서 객체를 딱 하나로만 유지할 필요가 있는 구조이므로 할당이 된 적이 있는지 검사합니다.
 		//이 동작은 헤더 하단의 설명에서 위험한 경우가 발생하는 경우 중 하나입니다.
-		if (nullptr == m_Instance)
+		if (nullptr == m_instance)
 		{
 			//예전에 선언된 적이 없다면 새로운 객체를 할당합니다.
-			m_Instance = new Status();
+			m_instance = new Status();
 		}
 	}
 
@@ -30,20 +30,20 @@ namespace Manager
 	{
 		//어떤 위치에서든 이 함수를 통해 단일 할당된 단일자 객체에 접근합니다.
 		//이 동작은 헤더 하단의 설명에서 위험한 경우가 발생하는 경우 중 하나입니다.
-		return m_Instance;
+		return m_instance;
 	}
 
 	void Status::Release()
 	{
 		//할당 된 적이 있을때만 해제하는 동작으로 구성함으로서 여기저기서 불릴 수 있는 단일자 구성 특성때문에 사용하는 검사입니다.
 		//이 동작은 헤더 하단의 설명에서 위험한 경우가 발생하는 경우 중 하나입니다.
-		if (nullptr != m_Instance)
+		if (nullptr != m_instance)
 		{
 			//할당 한 적이 있다면 삭제를 수행합니다.
-			delete m_Instance;
+			delete m_instance;
 			//단일자는 삭제되고 나서 다른 동작이 발생하기 전에 m_Instance에 대해 검사하고 동작하는데다가,
 			//이 Release 동작이 올바르게 수행되기 위해서 꼭 객체 포인터를 0, NULL, nullptr 등으로 정리해놔야 합니다.
-			m_Instance = nullptr;
+			m_instance = nullptr;
 		}
 	}
 	//~@@'단일자 구조(Singleton Pattern)'
@@ -87,6 +87,11 @@ namespace Manager
 		return prevState;
 	}
 
+	void Status::UpdateLastStateString(const std::wstring& _UpdateString)
+	{
+		m_lastStateString = _UpdateString;
+	}
+
 //Private Function
 	Status::Status()
 		: m_programRunState(PROGRAM_RUN_STATE::INITIALIZE)
@@ -101,6 +106,8 @@ namespace Manager
 
 	Status::~Status()
 	{
+		std::wcout << L"LastState : " << m_lastStateString << std::endl;
+
 		//이 동작은 헤더 하단의 설명에서 위험한 경우가 발생하는 경우 중 하나입니다.
 		if (PROGRAM_RUN_STATE::EXIT != SetProgramRunState(PROGRAM_RUN_STATE::EXIT))
 		{

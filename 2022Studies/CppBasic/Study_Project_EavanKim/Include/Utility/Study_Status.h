@@ -44,6 +44,10 @@ namespace Manager
 		UNKNOWN			//알 수 없는 상태입니다.
 		, INITIALIZE	//초기화 중입니다.
 		, IDLE			//대기 상태입니다.
+		, CONSOLIN		//콘솔에서 입력을 받습니다.
+		, CONSOLOUT		//콘솔에 데이터를 작성합니다.
+		, FILEIN		//파일을 읽어들입니다.
+		, FILEOUT		//파일로 데이터를 저장합니다.
 		, TASK_CREATE	//작업을 생성하고 있습니다.
 		, TASK_EDIT		//작업을 수정하고 있습니다.
 		, TASK_DELETE	//작업을 삭제하고 있습니다.
@@ -79,6 +83,9 @@ namespace Manager
 		//이전 상태를 반환해서 Set한 값이 이전 값과 다를 때 처리를 할 수 있도록 합니다.
 		PROGRAM_WORK_STATE SetProgramWorkState(PROGRAM_WORK_STATE _CurrentState);
 
+		//마지막 상태를 기록하는 문자열을 갱신합니다.
+		void UpdateLastStateString(const std::wstring& _UpdateString);
+
 	private:
 		//@@'단일자 구조(Singleton Pattern)'
 		//생성과 삭제를 외부에서 제어할 수 없도록 막아버린 부분입니다.
@@ -100,11 +107,14 @@ namespace Manager
 		PROGRAM_RUN_STATE m_programRunState;
 		PROGRAM_WORK_STATE m_programWorkState;
 
+		//종료될 때 남기고 싶은 정보를 적어두는 문자열입니다.
+		std::wstring m_lastStateString;
+
 		//@@'단일자 구조(Singleton Pattern)'
 		//프로그램에서 유일하게 존재하는 객체를 선언합니다.
 		//클래스 안에 선언하면 클래스 명으로 namespace 효과를 받기 때문에 패턴을 구현할때 동일한 변수명을 사용할 수 있어서 좋습니다.
 		//정 클래스 안에 넣기 싫으시다면 외부에 선언하더라도 프로그램 전역에서 딱 하나의 객체만 유지되면 아무 이상이 없다고 생각합니다.
-		static Status* m_Instance;
+		static Status* m_instance;
 		//~@@'단일자 구조(Singleton Pattern)'
 	};
 }
@@ -142,10 +152,10 @@ namespace Manager
 * 
 * 조건.
 *	윈도우 메세지 처리부, 프로그램 기능 처리부, 그리기 처리부 세 가지 부분에서 '실행흐름'을 나누어 사용하고 있는 프로그램 A가 있을 때.
-*	프로그램 A의 '윈도우 메세지 처리부'의 '실행흐름'에서 WM_QUIT(프로그램 종료 메세지)를 처리하면서 State 객체의 CurrentState 값을 Normal에서 Quit로 변경하는 도중에
+*	프로그램 A의 '윈도우 메세지 처리부'의 '실행흐름'에서 WM_QUIT(프로그램 종료 메세지)를 처리하면서 State 객체의 CurrentState 값을 Normal에서 EXIT로 변경하는 도중에
 *	'그리기 처리부'의 '실행흐름'에서 State 객체의 CurrentState 값을 읽어들여서 지금 프로그램이 종료되지 않아서 새로 그려야 하는지를 확인하고 있는 경우.
 *	
-* 위와 같은 경우가 발생하면 '그리기 처리부'의 '실행흐름'에는 CurrentState가 Normal인 상태이고, '윈도우 메세지 처리부'에서는 CurrentState가 Quit가 되어야 하는 상황이 생깁니다.
+* 위와 같은 경우가 발생하면 '그리기 처리부'의 '실행흐름'에는 CurrentState가 Normal인 상태이고, '윈도우 메세지 처리부'에서는 CurrentState가 EXIT가 되어야 하는 상황이 생깁니다.
 * 이것은 프로그램에서 '실행흐름'을 관리 할 때의 구조적 문제입니다.
 *	이 실행흐름도 주제가 상당히 깊어지므로 궁금하신 분은 '실행흐름 문맥(Thread Context)'이나 '실행흐름 저장소(Thread Local Storage - TLS)', 그리고 '조건부 저장(Cache)'을 키워드로 검색 해 보시면 다양한 자료가 나옵니다.
 *   다만, 난이도가 상당합니다 주의 해 주세요.
