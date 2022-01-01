@@ -87,6 +87,11 @@ namespace Default
 			data->IncreaseReference();
 		}
 
+		~Study_Ptr()
+		{
+			Release();
+		}
+
 		//복사는 다른데서 이 포인터를 사용한다는 말이므로 참조를 증가시킵니다.
 		void Copy(Study_Ptr& _Dest, Study_Ptr& _Source)
 		{
