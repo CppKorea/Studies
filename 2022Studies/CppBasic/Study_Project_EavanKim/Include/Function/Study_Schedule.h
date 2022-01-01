@@ -15,13 +15,6 @@
 
 namespace Manager
 {
-	enum class TaskStatus
-	{
-		NONE
-		, PROGRASS
-		, DONE
-		, END
-	};
 
 	enum class ScheduleStatus
 	{
@@ -40,6 +33,7 @@ namespace Manager
 		{
 			OUT_TEXT
 			, OUT_TITLE
+			, OUT_CUSTOMTEXT
 			, IN_INT
 			, IN_FLOAT
 			, IN_TEXT
@@ -53,6 +47,28 @@ namespace Manager
 				, valied(true)
 				, textkey(L"")
 				, text(L"")
+				, input_int(0)
+				, input_float(0)
+				, input_text(L"")
+			{
+			}
+
+			Schedule_IO_Setup(wchar_t* _Text)
+				: type(IOType::OUT_CUSTOMTEXT)
+				, valied(true)
+				, textkey(L"")
+				, text(_Text)
+				, input_int(0)
+				, input_float(0)
+				, input_text(L"")
+			{
+			}
+
+			Schedule_IO_Setup(std::wstring _Text)
+				: type(IOType::OUT_CUSTOMTEXT)
+				, valied(true)
+				, textkey(L"")
+				, text(_Text)
 				, input_int(0)
 				, input_float(0)
 				, input_text(L"")
@@ -120,12 +136,24 @@ namespace Manager
 		explicit Study_Schedule();
 		~Study_Schedule();
 
-		int ShowTaskList();
-		bool AddTask(std::wstring _Task);
-		bool RemoveTask(int _Task);
-		int TaskManage(TaskStatus _Status);
-		int ProcessIOSetupList(std::vector<Schedule_IO_Setup>& _list);
+		//전체 리스트를 출력합니다.
+		//_Interrupt를 true로 맞추면 입력이 끝나기 전 까지 리스트 출력에 머무릅니다.
+		int ShowTaskList(bool _Interrupt = false);
 
+		//ToDo List에 입력받은 글자를 입력한 새로운 Task를 생성한다.
+		bool AddTask(std::wstring _Task);
+		
+		//ToDo List에서 대상을 바로 삭제합니다.
+		bool RemoveTask(int _Task);
+
+		//Task Setup Process.
+		//안에서 ProcessIOSetupList를 수행하면서 입력을 받아 처리
+		int TaskManage(Default::Study_Ptr<Func_Object::Study_Task>& _TaskPtr);
+
+		//입출력 관련 처리 절차 수행
+		int ProcessIOSetupList(std::vector<Schedule_IO_Setup>& _list);
+		
+		//게임 로직 실행
 		int Run();
 
 	private:

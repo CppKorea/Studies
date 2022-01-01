@@ -9,18 +9,22 @@ namespace Manager
 
 		m_status = ScheduleStatus::IDLE;
 	}
+
 	Study_Schedule::~Study_Schedule()
 	{
 	}
-	int Study_Schedule::ShowTaskList()
+
+	int Study_Schedule::ShowTaskList(bool _Interrupt)
 	{
 		int Result = m_taskList.size();
 
 		if (Result)
 		{
+			std::wstring Row;
 			for (int Count = 0; Result > Count; ++Count)
 			{
-				std::wcout << Count << L" : " << m_taskList[Count].Get()->GetShowData() << std::endl;
+				m_taskList[Count].Get()->GetFullData(Row);
+				std::wcout << Count << L" : " << Row << std::endl;
 			}
 		}
 		else
@@ -34,27 +38,32 @@ namespace Manager
 			}
 		}
 
-		std::wstring EndString;
-		Study_Localize* LocalizeMgr = Study_Localize::GetInstance();
-		if (LocalizeMgr)
+		if (_Interrupt)
 		{
-			LocalizeMgr->GetLocalizeString(L"WAIT_LIST", EndString);
-			std::wcout << EndString << std::endl;
+			std::wstring EndString;
+			Study_Localize* LocalizeMgr = Study_Localize::GetInstance();
+			if (LocalizeMgr)
+			{
+				LocalizeMgr->GetLocalizeString(L"WAIT_LIST", EndString);
+				std::wcout << EndString << std::endl;
+			}
+			std::wcin >> EndString;
 		}
-		std::wcin >> EndString;
 
 		return Result;
 	}
+
 	bool Study_Schedule::AddTask(std::wstring _Task)
 	{
 		bool Result = false;
 
-		Func_Object::Study_Task* newTask = new Func_Object::Study_Task();
+		Func_Object::Study_Task* newTask = new Func_Object::Study_Task(_Task);
 		m_taskList.push_back(newTask);
 		Result = true;
 
 		return Result;
 	}
+
 	bool Study_Schedule::RemoveTask(int _Task)
 	{
 		bool Result = false;
@@ -62,13 +71,70 @@ namespace Manager
 		if ((_Task < 0) || (m_taskList.size() < _Task))
 			return Result;
 
+		std::vector<Default::Study_Ptr<Func_Object::Study_Task>>::iterator ListIter = m_taskList.begin();
 
+		for (int Count = 0; _Task > Count; ++Count)
+			++ListIter;
+
+		m_taskList.erase(ListIter);
 
 		return Result;
 	}
-	int Study_Schedule::TaskManage(TaskStatus _Status)
+
+	int Study_Schedule::TaskManage(Default::Study_Ptr<Func_Object::Study_Task>& _TaskPtr)
 	{
-		return 0;
+		int Result = 0;
+
+		std::vector<Schedule_IO_Setup> OutPutSettings;
+		OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TITLE, L"TITLE_MANAGE" });
+		std::wstring GetTaskString;
+		(_TaskPtr.Get())->GetFullData(GetTaskString);
+		OutPutSettings.push_back({ GetTaskString });
+		OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TEXT, L"BODY_MANAGE0" });
+		OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TEXT, L"BODY_MANAGE1" });
+		OutPutSettings.push_back({ Manager::Study_Schedule::IOType::IN_INT, L"END_MANAGE" });
+		
+		Study_IO::ScreenClear();
+		Result = ProcessIOSetupList(OutPutSettings);
+		if (0 == Result)
+		{
+			int InputValue = OutPutSettings[OutPutSettings.size() - 1].input_int;
+
+			OutPutSettings.clear();
+
+			switch (InputValue)
+			{
+			case 0:
+				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TITLE, L"TITLE_MANAGE_0" });
+				OutPutSettings.push_back({ GetTaskString });
+				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TEXT, L"BODY_MANAGE_0_0" });
+				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TEXT, L"BODY_MANAGE_0_1" });
+				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TEXT, L"BODY_MANAGE_0_2" });
+				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::IN_INT, L"END_MANAGE_0" });
+				Result = ProcessIOSetupList(OutPutSettings);
+				if (0 == Result)
+				{
+					int InputValue = OutPutSettings[OutPutSettings.size() - 1].input_int;
+					(_TaskPtr.Get())->SetStatus((Func_Object::TaskStatus)InputValue);
+				}
+				break;
+			case 1:
+				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TITLE, L"TITLE_MANAGE_1" });
+				OutPutSettings.push_back({ GetTaskString });
+				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::IN_TEXT, L"END_MANAGE_1" });
+				Result = ProcessIOSetupList(OutPutSettings);
+				if (0 == Result)
+				{
+					std::wstring InputValue = OutPutSettings[OutPutSettings.size() - 1].input_text;
+					(_TaskPtr.Get())->SetString(InputValue);
+				}
+				break;
+			default:
+				break;
+			}
+		}
+
+		return Result;
 	}
 
 	int Study_Schedule::ProcessIOSetupList(std::vector<Schedule_IO_Setup>& _list)
@@ -89,6 +155,9 @@ namespace Manager
 				break;
 			case Manager::Study_Schedule::IOType::IN_TEXT:
 				Study_IO::WaitInput(_list[Count].text, _list[Count].input_text);
+				break;
+			case Manager::Study_Schedule::IOType::SHOW_LIST:
+				ShowTaskList();
 				break;
 			default:
 				Study_IO::ShowLine(_list[Count].text, 40);
@@ -132,7 +201,7 @@ namespace Manager
 						switch (InputValue)
 						{
 						case 1:
-							ShowTaskList();
+							ShowTaskList(true);
 							m_status = ScheduleStatus::IDLE;
 							break;
 						case 2:
@@ -165,10 +234,11 @@ namespace Manager
 			{
 				OutPutSettings.push_back(Schedule_IO_Setup(Manager::Study_Schedule::IOType::OUT_TITLE, L"TITLE_ADD"));
 				OutPutSettings.push_back(Schedule_IO_Setup(Manager::Study_Schedule::IOType::SHOW_LIST));
-				OutPutSettings.push_back(Schedule_IO_Setup(Manager::Study_Schedule::IOType::IN_INT, L"INPUT_ADD"));
+				OutPutSettings.push_back(Schedule_IO_Setup(Manager::Study_Schedule::IOType::IN_TEXT, L"INPUT_ADD"));
 				if (0 == ProcessIOSetupList(OutPutSettings))
 				{
-					std::wstring InputValue = OutPutSettings[2].input_text;
+					std::wstring InputValue = OutPutSettings[OutPutSettings.size() - 1].input_text;
+					AddTask(InputValue);
 				}
 				else
 				{
@@ -186,7 +256,8 @@ namespace Manager
 				OutPutSettings.push_back(Schedule_IO_Setup(Manager::Study_Schedule::IOType::IN_INT, L"INPUT_REMOVE"));
 				if (0 == ProcessIOSetupList(OutPutSettings))
 				{
-					std::wstring InputValue = OutPutSettings[2].input_text;
+					int InputValue = OutPutSettings[OutPutSettings.size() - 1].input_int;
+					RemoveTask(InputValue);
 				}
 				else
 				{
@@ -204,7 +275,8 @@ namespace Manager
 				OutPutSettings.push_back(Schedule_IO_Setup(Manager::Study_Schedule::IOType::IN_INT, L"INPUT_MANAGE"));
 				if (0 == ProcessIOSetupList(OutPutSettings))
 				{
-					std::wstring InputValue = OutPutSettings[2].input_text;
+					int InputValue = OutPutSettings[OutPutSettings.size() - 1].input_int;
+					TaskManage(m_taskList[InputValue]);
 				}
 				else
 				{

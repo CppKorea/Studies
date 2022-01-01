@@ -94,11 +94,12 @@ namespace Default
 			_Dest.data->IncreaseReference();
 		}
 
-		//*연산자를 입맛대로 고쳐서 사용합니다.
-		//*Study_Ptr<Test> 는 Test*를 반환합니다.
-		T* operator*()
+		Default::Study_Ptr<T>& operator =(const Default::Study_Ptr<T>& _Check)
 		{
-			return data;
+			this->data = _Check.data;
+			this->data->IncreaseReference();
+
+			return *this;
 		}
 
 		//smart pointer에서 Get과 동일한 용법입니다.

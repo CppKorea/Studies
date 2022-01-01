@@ -106,15 +106,13 @@ namespace Manager
 			int ResultCount = CreatePadding(_string.length(), _screenSize, _paddingCharactor, paddingString);
 			if (0 < ResultCount)
 			{
-				std::wcout << L"|";
 				std::wcout << _string;
 				std::wcout << paddingString;
-				std::wcout << L"|";
 				std::wcout << std::endl;
 			}
 			else if (0 == ResultCount)
 			{
-				std::wcout << L"|" + _string + L"|" << std::endl;
+				std::wcout << _string << std::endl;
 			}
 			else
 			{
