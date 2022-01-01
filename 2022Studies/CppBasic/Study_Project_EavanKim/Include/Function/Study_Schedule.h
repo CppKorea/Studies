@@ -15,17 +15,39 @@
 
 namespace Manager
 {
+	enum class TaskStatus
+	{
+		NONE
+		, PROGRASS
+		, DONE
+		, END
+	};
+
+	enum class ScheduleStatus
+	{
+		INITIALIZE
+		, IDLE
+		, ADD
+		, REMOVE
+		, MANAGE
+		, END
+	};
+
 	class Study_Schedule
 	{
 	public:
-		//? ShowTaskList(?);
-		//? AddTask(?);
-		//? RemoveTask(?);
-		//? ManageTask(?);
+		explicit Study_Schedule();
+		~Study_Schedule();
+
+		int ShowTaskList();
+		bool AddTask(std::wstring _Task);
+		bool RemoveTask(int _Task);
+		int TaskManage(TaskStatus _Status);
 		
-		//기타 함수
+		int Run();
 
 	private:
+		ScheduleStatus m_status;
 		std::vector<Default::Study_Ptr<Func_Object::Study_Task>> m_taskList;
 	};
 }

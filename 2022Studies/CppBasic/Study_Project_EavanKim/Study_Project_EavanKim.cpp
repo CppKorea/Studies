@@ -23,6 +23,7 @@ int main()
 	//0은 아무 이상 없이 잘 종료되었다는 표시입니다.
 	//Windows에서 사용하는 에러코드를 따르므로 MSDN등에서 에러코드를 찾아보고 올바르게 처리하거나, 잘 정리해서 사용해야 합니다.
 	int ExitCode = 0;
+	std::locale::global(std::locale("ko_KR.UTF-8"));
 	//전역에서 사용되는 Manager Namespace아래의 객체를 생성하도록 지시합니다.
 	Manager::Initialize();
 
@@ -35,17 +36,22 @@ int main()
 	if (nullptr != StatusMgr)
 		ProgramRun = StatusMgr->CheckProgramRunSanity();	//실행이 가능한 상태가 확인되면 여기서 프로그램 실행 체크가 True가 됩니다.
 
+	Manager::Study_Schedule ProgramObject;
+
 	try
 	{
 		while (ProgramRun)
 		{
 			//실행 루프
+			ProgramObject.Run();
 
 			//Manager::Initialize()에서 생성된 Status 객체의 포인터를 사용하기 전에 확인합니다.
-			//일회성으로 사용하지 않는다면 단일자인 Status가 불특정 순간에 Release가 될 만한 일(크래시에 의한 즉시 해제)이 발생하면 댕글링 포인터를 물게 됩니다.
+			//일회성으로 사용하지 않는다면 단일자인 Status가 불특정 순간에 Release가 될 만한 일(크래시에 의한 즉시 해제 혹은 실수로 인한 해제)이 발생하면 댕글링 포인터를 물게 됩니다.
 			Manager::Status* StatusMgr = Manager::Status::GetInstance();
 			if (nullptr != StatusMgr)
 				ProgramRun = StatusMgr->CheckProgramRunSanity();	//실행이 가능한 상태가 확인되면 여기서 프로그램 실행 체크가 True가 됩니다.
+			else
+				return -9999; //불특정 순간에 StatusMgr이 해제당해서 프로그램이 정상이 아니라면 자체 에러코드를 반환하고 종료합니다.
 		}
 	}
 	catch (const std::exception& _excep) //여러가지 에러 객체중 std::excpetion을 상속한 객체가 발생되는 경우 여기로 진입합니다.

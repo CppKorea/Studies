@@ -22,10 +22,11 @@
 namespace Default
 {
 	//레퍼런스 카운트가 어디서 생성되었는가로 숫자가 달라지면 안되므로, 최상위 상속 객체를 지정하고 이곳에 저장합니다.
-	//포인터로 접근하는 객체가 카운트를 들고 있으므로, 어떤 때에도 카운트를 바라봅니다.
+	//포인터로 접근하는 객체가 카운트를 들고 있으므로, 어떤 때에도 같은 카운트를 바라봅니다.
 	class Study_Object
 	{
 	public:
+		//생성과 함께 카운트를 초기화 합니다.
 		explicit Study_Object()
 			: m_referenceCount(0)
 		{
@@ -33,6 +34,7 @@ namespace Default
 		}
 
 		//삭제될 때 딱히 포인터 객체를 들고있는건 아니므로 별 작업이 없습니다.
+		//virtual이 붙은 이유는 상속관계인 대상이 있을 예정이므로 올바르게 소멸자가 순서대로 불리도록 조치된 내용입니다.
 		virtual ~Study_Object()
 		{
 
@@ -64,25 +66,43 @@ namespace Default
 	class Study_Ptr
 	{
 	public:
+		//생성하면서 Reference를 증가시켜야 원본이 삭제될 때 올바르게 0으로 카운트 됩니다.
 		Study_Ptr(T* _Target)
+			: data(_Target)
 		{
-			data = _Target;
 			data->IncreaseReference();
 		}
 
+		//복사는 다른데서 이 포인터를 사용한다는 말이므로 참조를 증가시킵니다.
 		Study_Ptr(Study_Ptr& _Copy)
+			: data(_Copy.data)
 		{
-			data = _Copy.data;
 			data->IncreaseReference();
 		}
 
+		//복사는 다른데서 이 포인터를 사용한다는 말이므로 참조를 증가시킵니다.
+		Study_Ptr(Study_Ptr&& _Copy)
+			: data(_Copy.data)
+		{
+			data->IncreaseReference();
+		}
+
+		//복사는 다른데서 이 포인터를 사용한다는 말이므로 참조를 증가시킵니다.
 		void Copy(Study_Ptr& _Dest, Study_Ptr& _Source)
 		{
 			_Dest.data = _Source.data;
 			_Dest.data->IncreaseReference();
 		}
 
-		//smart pointer에서 
+		//*연산자를 입맛대로 고쳐서 사용합니다.
+		//*Study_Ptr<Test> 는 Test*를 반환합니다.
+		T* operator*()
+		{
+			return data;
+		}
+
+		//smart pointer에서 Get과 동일한 용법입니다.
+		//사실 이걸로 포인터를 가져가서 사용하면 위험하므로 포인터를 복제하지 말고 Get으로 쓰자마자 바로 버려야합니다.
 		T* Get()
 		{
 			return data;
@@ -94,8 +114,10 @@ namespace Default
 		//'다중 실행흐름(Multi-Threading)' 프로그램에서는 매우 위험하므로 여러 안전조치가 필요합니다.
 		void Release()
 		{
+			//참조 카운트를 감소시키고 마지막 값을 저장합니다.
 			int64_t ReferenceCount = data->DecreaseReference();
 
+			//혹시 마지막 값이 0이면 대상을 삭제합니다.
 			if (!ReferenceCount)
 			{
 				delete data;

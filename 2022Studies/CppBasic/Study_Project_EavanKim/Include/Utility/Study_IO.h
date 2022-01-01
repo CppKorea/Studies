@@ -74,6 +74,7 @@ namespace Manager
 
 			return 0;
 		}
+
 		//콘솔 출력 3형제의 반복 구간을 한 방에 처리하기 위한 함수입니다.
 		static int CreatePadding(int _stringSize, int _screenSize, wchar_t _paddingCharactor, std::wstring& _paddingResult)
 		{
@@ -89,13 +90,14 @@ namespace Manager
 			else
 			{
 				_paddingResult.clear();
-				_paddingResult.reserve(PaddingCount + 1);
+				_paddingResult.resize(PaddingCount + 1);
 				wmemset(_paddingResult.data(), _paddingCharactor, PaddingCount);
-				_paddingResult[PaddingCount] = L'\0';
+				_paddingResult[PaddingCount - 1] = L'\0';
 			}
 
 			return PaddingCount;
 		}
+
 		//내용을 만드는데 사용되는 함수입니다.
 		//기본적으로 한 줄을 사용하는 가정이며 가급적 짧을수록 좋습니다.
 		static int ShowLine(const std::wstring& _string, int _screenSize, wchar_t _paddingCharactor = L' ')
@@ -104,11 +106,15 @@ namespace Manager
 			int ResultCount = CreatePadding(_string.length(), _screenSize, _paddingCharactor, paddingString);
 			if (0 < ResultCount)
 			{
-				std::wcout << L"|" << _string << paddingString << L"|" << std::endl;
+				std::wcout << L"|";
+				std::wcout << _string;
+				std::wcout << paddingString;
+				std::wcout << L"|";
+				std::wcout << std::endl;
 			}
 			else if (0 == ResultCount)
 			{
-				std::wcout << L"|" << _string << L"|" << std::endl;
+				std::wcout << L"|" + _string + L"|" << std::endl;
 			}
 			else
 			{
@@ -117,11 +123,12 @@ namespace Manager
 
 			return 0;
 		}
+
 		//사용자 입력을 받아들여서 처리합니다.
 		static bool WaitInput(const std::wstring& _message, std::wstring& _getBuffer)
 		{
 			_getBuffer.clear();
-			std::wcout << _message << L"(문자열을 입력 해 주세요) :" << std::endl;
+			std::wcout << _message + L"(문자열을 입력 해 주세요) :" << std::endl;
 			std::wcin >> _getBuffer;
 
 			if (_getBuffer.length())
@@ -129,18 +136,20 @@ namespace Manager
 			else
 				return false;
 		}
+
 		//사용자 입력을 받아들여서 처리합니다.
 		static bool WaitInput(const std::wstring& _message, int& _get)
 		{
-			std::wcout << _message << L"(정수값을 입력 해 주세요) :" << std::endl;
+			std::wcout << _message + L"(정수값을 입력 해 주세요) :" << std::endl;
 			std::wcin >> _get;
 
 			return true;
 		}
+
 		//사용자 입력을 받아들여서 처리합니다.
 		static bool WaitInput(const std::wstring& _message, float& _get)
 		{
-			std::wcout << _message << L"(실수값을 입력 해 주세요) :" << std::endl;
+			std::wcout << _message + L"(실수값을 입력 해 주세요) :" << std::endl;
 			std::wcin >> _get;
 
 			return true;
@@ -179,6 +188,10 @@ namespace Manager
 					_result.append(Buffer);
 				}
 				fclose(pFile);
+			}
+			else
+			{
+				return -1;
 			}
 
 			return 0;
