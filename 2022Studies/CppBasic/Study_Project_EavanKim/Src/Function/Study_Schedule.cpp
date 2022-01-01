@@ -25,8 +25,23 @@ namespace Manager
 		}
 		else
 		{
-
+			std::wstring EmptyList;
+			Study_Localize* LocalizeMgr = Study_Localize::GetInstance();
+			if (LocalizeMgr)
+			{
+				LocalizeMgr->GetLocalizeString(L"EMPTY_LIST", EmptyList);
+				std::wcout << EmptyList << std::endl;
+			}
 		}
+
+		std::wstring EndString;
+		Study_Localize* LocalizeMgr = Study_Localize::GetInstance();
+		if (LocalizeMgr)
+		{
+			LocalizeMgr->GetLocalizeString(L"WAIT_LIST", EndString);
+			std::wcout << EndString << std::endl;
+		}
+		std::wcin >> EndString;
 
 		return Result;
 	}
@@ -34,11 +49,20 @@ namespace Manager
 	{
 		bool Result = false;
 
+		Func_Object::Study_Task* newTask = new Func_Object::Study_Task();
+		m_taskList.push_back(newTask);
+		Result = true;
+
 		return Result;
 	}
 	bool Study_Schedule::RemoveTask(int _Task)
 	{
 		bool Result = false;
+
+		if ((_Task < 0) || (m_taskList.size() < _Task))
+			return Result;
+
+
 
 		return Result;
 	}
@@ -46,54 +70,87 @@ namespace Manager
 	{
 		return 0;
 	}
+
+	int Study_Schedule::ProcessIOSetupList(std::vector<Schedule_IO_Setup>& _list)
+	{
+		int MaxCount = _list.size();
+		for (int Count = 0; MaxCount > Count; ++Count)
+		{
+			switch (_list[Count].type)
+			{
+			case Manager::Study_Schedule::IOType::OUT_TITLE:
+				Study_IO::ShowLine(_list[Count].text, 40, L'=');
+				break;
+			case Manager::Study_Schedule::IOType::IN_INT:
+				Study_IO::WaitInput(_list[Count].text, _list[Count].input_int);
+				break;
+			case Manager::Study_Schedule::IOType::IN_FLOAT:
+				Study_IO::WaitInput(_list[Count].text, _list[Count].input_float);
+				break;
+			case Manager::Study_Schedule::IOType::IN_TEXT:
+				Study_IO::WaitInput(_list[Count].text, _list[Count].input_text);
+				break;
+			default:
+				Study_IO::ShowLine(_list[Count].text, 40);
+				break;
+			}
+		}
+
+		return 0;
+	}
+
 	int Study_Schedule::Run()
 	{
+		Study_IO::ScreenClear();
 		Status* StatusMgr = Status::GetInstance();
 		Study_Localize* LocalizeMgr = Study_Localize::GetInstance();
-
-		std::wstring Title;
-		std::wstring Body;
-		std::wstring Body0;
-		std::wstring Body1;
-		std::wstring Body2;
-		std::wstring Body3;
-		std::wstring End;
-		int InputInteger;
-		std::wstring InputString;
-		float InputFloat;
+		
+		std::wstring Buffer;
+		std::vector<Schedule_IO_Setup> OutPutSettings;
 
 		if (StatusMgr && LocalizeMgr)
 		{
+			//상태값에 따라 출력과 입력을 받도록 합니다.
 			switch (m_status)
 			{
 			case ScheduleStatus::INITIALIZE:
 				break;
 			case ScheduleStatus::IDLE:
-				LocalizeMgr->GetLocalizeString(L"TITLE_IDLE", Title);
-				LocalizeMgr->GetLocalizeString(L"BODY_IDLE0", Body0);
-				LocalizeMgr->GetLocalizeString(L"BODY_IDLE1", Body1);
-				LocalizeMgr->GetLocalizeString(L"BODY_IDLE2", Body2);
-				LocalizeMgr->GetLocalizeString(L"BODY_IDLE3", Body3);
-				LocalizeMgr->GetLocalizeString(L"END_IDLE", End);
-				Study_IO::ShowLine(Title, 40, L'=');
-				Study_IO::ShowLine(Body0, 40);
-				Study_IO::ShowLine(Body1, 40);
-				Study_IO::ShowLine(Body2, 40);
-				Study_IO::ShowLine(Body3, 40);
-				Study_IO::WaitInput(End, InputInteger);
-				if ((0 < InputInteger) && (InputInteger < (int)ScheduleStatus::END))
+			{
+				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TITLE, L"TITLE_IDLE" });
+				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TEXT, L"BODY_IDLE0" });
+				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TEXT, L"BODY_IDLE1" });
+				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TEXT, L"BODY_IDLE2" });
+				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TEXT, L"BODY_IDLE3" });
+				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TEXT, L"BODY_IDLE4" });
+				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::IN_INT, L"INPUT_IDLE" });
+				if (0 == ProcessIOSetupList(OutPutSettings))
 				{
-					switch (InputInteger)
+					int InputValue = OutPutSettings[OutPutSettings.size() - 1].input_int;
+					if ((0 < InputValue) && (InputValue < (int)ScheduleStatus::END))
 					{
-					case 1:
-						m_status = ScheduleStatus::ADD;
-						break;
-					case 2:
-						m_status = ScheduleStatus::REMOVE;
-						break;
-					case 3:
-						m_status = ScheduleStatus::MANAGE;
-						break;
+						switch (InputValue)
+						{
+						case 1:
+							ShowTaskList();
+							m_status = ScheduleStatus::IDLE;
+							break;
+						case 2:
+							m_status = ScheduleStatus::ADD;
+							break;
+						case 3:
+							m_status = ScheduleStatus::REMOVE;
+							break;
+						case 4:
+							m_status = ScheduleStatus::MANAGE;
+							break;
+						}
+					}
+					else
+					{
+						StatusMgr->SetProgramRunState(PROGRAM_RUN_STATE::EXCEPTION);
+						StatusMgr->SetProgramWorkState(PROGRAM_WORK_STATE::CONSOLIN);
+						return -1;
 					}
 				}
 				else
@@ -102,25 +159,34 @@ namespace Manager
 					StatusMgr->SetProgramWorkState(PROGRAM_WORK_STATE::CONSOLIN);
 					return -1;
 				}
+			}
 				break;
 			case ScheduleStatus::ADD:
-				LocalizeMgr->GetLocalizeString(L"TITLE_ADD", Title);
-				LocalizeMgr->GetLocalizeString(L"BODY_ADD", Body);
-				LocalizeMgr->GetLocalizeString(L"END_ADD", End);
-				Study_IO::ShowLine(Title, 40, L'=');
-				Study_IO::ShowLine(Body, 40);
-				Study_IO::WaitInput(End, InputString);
+			{
+				OutPutSettings.push_back(Schedule_IO_Setup(Manager::Study_Schedule::IOType::OUT_TITLE, L"TITLE_ADD"));
+				OutPutSettings.push_back(Schedule_IO_Setup(Manager::Study_Schedule::IOType::SHOW_LIST));
+				OutPutSettings.push_back(Schedule_IO_Setup(Manager::Study_Schedule::IOType::IN_INT, L"INPUT_ADD"));
+				if (0 == ProcessIOSetupList(OutPutSettings))
+				{
+					std::wstring InputValue = OutPutSettings[2].input_text;
+				}
+				else
+				{
+					StatusMgr->SetProgramRunState(PROGRAM_RUN_STATE::EXCEPTION);
+					StatusMgr->SetProgramWorkState(PROGRAM_WORK_STATE::CONSOLIN);
+					return -1;
+				}
+				m_status = ScheduleStatus::IDLE;
+			}
 				break;
 			case ScheduleStatus::REMOVE:
-				LocalizeMgr->GetLocalizeString(L"TITLE_REMOVE", Title);
-				LocalizeMgr->GetLocalizeString(L"BODY_REMOVE", Body);
-				LocalizeMgr->GetLocalizeString(L"END_REMOVE", End);
-				Study_IO::ShowLine(Title, 40, L'=');
-				Study_IO::ShowLine(Body, 40);
-				Study_IO::WaitInput(End, InputInteger);
-				if ((-1 < InputInteger) && (InputInteger < m_taskList.size()))
+			{
+				OutPutSettings.push_back(Schedule_IO_Setup(Manager::Study_Schedule::IOType::OUT_TITLE, L"TITLE_REMOVE"));
+				OutPutSettings.push_back(Schedule_IO_Setup(Manager::Study_Schedule::IOType::SHOW_LIST));
+				OutPutSettings.push_back(Schedule_IO_Setup(Manager::Study_Schedule::IOType::IN_INT, L"INPUT_REMOVE"));
+				if (0 == ProcessIOSetupList(OutPutSettings))
 				{
-
+					std::wstring InputValue = OutPutSettings[2].input_text;
 				}
 				else
 				{
@@ -128,17 +194,17 @@ namespace Manager
 					StatusMgr->SetProgramWorkState(PROGRAM_WORK_STATE::CONSOLIN);
 					return -1;
 				}
+				m_status = ScheduleStatus::IDLE;
+			}
 				break;
 			case ScheduleStatus::MANAGE:
-				LocalizeMgr->GetLocalizeString(L"TITLE_MANAGE", Title);
-				LocalizeMgr->GetLocalizeString(L"BODY_MANAGE", Body);
-				LocalizeMgr->GetLocalizeString(L"END_MANAGE", End);
-				Study_IO::ShowLine(Title, 40, L'=');
-				Study_IO::ShowLine(Body, 40);
-				Study_IO::WaitInput(End, InputInteger);
-				if ((-1 < InputInteger) && (InputInteger < (int)TaskStatus::END))
+			{
+				OutPutSettings.push_back(Schedule_IO_Setup(Manager::Study_Schedule::IOType::OUT_TITLE, L"TITLE_MANAGE"));
+				OutPutSettings.push_back(Schedule_IO_Setup(Manager::Study_Schedule::IOType::SHOW_LIST));
+				OutPutSettings.push_back(Schedule_IO_Setup(Manager::Study_Schedule::IOType::IN_INT, L"INPUT_MANAGE"));
+				if (0 == ProcessIOSetupList(OutPutSettings))
 				{
-
+					std::wstring InputValue = OutPutSettings[2].input_text;
 				}
 				else
 				{
@@ -146,8 +212,11 @@ namespace Manager
 					StatusMgr->SetProgramWorkState(PROGRAM_WORK_STATE::CONSOLIN);
 					return -1;
 				}
+				m_status = ScheduleStatus::IDLE;
+			}
 				break;
 			default:
+				m_status = ScheduleStatus::IDLE;
 				break;
 			}
 		}
