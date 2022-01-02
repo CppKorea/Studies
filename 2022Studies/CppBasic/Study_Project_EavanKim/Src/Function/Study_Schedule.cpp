@@ -247,18 +247,18 @@ namespace Manager
 						}
 						else
 						{
-							throw std::exception("Localize Data File Is Corrupted!!!");
+							throw std::exception("File Is Corrupted!!!");
 						}
 					}
 					else
 					{
-						throw std::exception("Localize Data File Is Corrupted!!!");
+						throw std::exception("File Is Corrupted!!!");
 					}
 				}
 			}
 			else
 			{
-				throw std::exception("Localize Data File Is Corrupted!!!");
+				throw std::exception("File Is Corrupted!!!");
 			}
 		}
 	}
