@@ -11,6 +11,13 @@ Manager::Func_Object::Study_Task::Study_Task(std::wstring& _string)
 {
 }
 
+Manager::Func_Object::Study_Task::Study_Task(std::wstring& _status, std::wstring& _string)
+	: m_status((TaskStatus)_wtoi(_status.c_str()))
+	, m_string(_string)
+{
+
+}
+
 Manager::Func_Object::Study_Task::~Study_Task()
 {
 }
@@ -63,4 +70,16 @@ void Manager::Func_Object::Study_Task::GetFullData(std::wstring& _string)
 	GetString(StringStr);
 
 	_string = L"|" + StatusStr + L"|" + StringStr + L"|";
+}
+
+void Manager::Func_Object::Study_Task::CreateSaveData(std::wstring& _string)
+{
+	_string.clear();
+	wchar_t Buffer[3];
+	_itow_s((int)m_status, Buffer, 10);
+	
+	_string.append(Buffer);
+	_string.append(L"`");
+	_string.append(m_string);
+	_string.append(L";");
 }

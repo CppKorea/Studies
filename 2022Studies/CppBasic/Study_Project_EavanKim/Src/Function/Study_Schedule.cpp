@@ -199,6 +199,86 @@ namespace Manager
 		return 0;
 	}
 
+	void Study_Schedule::SetLoadedData(std::wstring& _loadedData)
+	{
+		//혹시 에러가 나면 상태를 변경하기 위한 매니저 포인터를 들고옵니다.
+		Status* StatusMgr = Status::GetInstance();
+
+		//상태 메니저가 초기화 되지 않았다면 게임 자체에 문제가 있다고 판단합니다.
+		if (nullptr != StatusMgr)
+		{
+			//혹시 이미 문제가 있는 상태인지 확인합니다.
+			PROGRAM_RUN_STATE LastStatus = StatusMgr->GetProgramRunState();
+			if ((PROGRAM_RUN_STATE::EXCEPTION == LastStatus) || (PROGRAM_RUN_STATE::EXIT == LastStatus))
+				return;
+
+			//로드에 성공하면 현재 ToDo List를 지웁니다.
+			m_taskList.clear();
+
+			//마지막이 ;로 끝나는지 검사합니다.
+			//그렇지 않다면 오작동의 위험이 있는 오염된 데이터로 취급합니다.
+			if (L';' == _loadedData[_loadedData.length() - 1])
+			{
+				//파일로부터 가져온 문자열이 빌 때 까지 순회합니다.
+				while (0 != _loadedData.length())
+				{
+					//; 위치를 찾아서 문자열 절단 기준점으로 삼습니다.
+					size_t StringSize = _loadedData.find(L';');
+					//혹시 문자열이 잘못되서 ;를 찾아내지 못하면 에러로 취급합니다.
+					if (StringSize < _loadedData.length())
+					{
+						//문자열을 절단합니다.
+						std::wstring SplitString(_loadedData.data(), StringSize, std::allocator<wchar_t>());
+						//절단된 문자열을 삭제한 문자열로 갱신합니다.
+						_loadedData = std::wstring(_loadedData, StringSize + 1, std::allocator<wchar_t>());
+
+						//`위치를 찾아서 Key/Value로 절단할 기준점으로 삼습니다.
+						size_t KeySize = SplitString.find(L'`');
+						//혹시 문자열이 잘못되어서 `를 찾아내지 못하면 에러로 취급합니다.
+						if (KeySize < SplitString.length())
+						{
+							//Key값을 잘라냅니다.
+							std::wstring Key(SplitString.data(), KeySize, std::allocator<wchar_t>());
+							//남은 문자열에서 `를 없애고 value를 가져옵니다.
+							std::wstring Value(SplitString, KeySize + 1, std::allocator<wchar_t>());
+							//두 자료를 모아 하나의 정보로 만들어 저장합니다.
+							Func_Object::Study_Task* Task = new Func_Object::Study_Task(Key, Value);
+							m_taskList.push_back(Task);
+						}
+						else
+						{
+							throw std::exception("Localize Data File Is Corrupted!!!");
+						}
+					}
+					else
+					{
+						throw std::exception("Localize Data File Is Corrupted!!!");
+					}
+				}
+			}
+			else
+			{
+				throw std::exception("Localize Data File Is Corrupted!!!");
+			}
+		}
+	}
+
+	bool Study_Schedule::CreateSaveData(std::wstring& _createdData)
+	{
+		bool Result = false;
+		std::wstring Buffer;
+		int MaxCount = m_taskList.size();
+
+		for (int Count = 0; MaxCount > Count; ++Count)
+		{
+			(m_taskList[Count].Get())->CreateSaveData(Buffer);
+			_createdData.append(Buffer);
+			Result = true;
+		}
+
+		return Result;
+	}
+
 	int Study_Schedule::Run()
 	{
 		//루프에 진입 할 때마다 화면을 정리합니다.
@@ -231,6 +311,8 @@ namespace Manager
 				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TEXT, L"BODY_IDLE2" });
 				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TEXT, L"BODY_IDLE3" });
 				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TEXT, L"BODY_IDLE4" });
+				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TEXT, L"BODY_IDLE5" });
+				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::OUT_TEXT, L"BODY_IDLE6" });
 				OutPutSettings.push_back({ Manager::Study_Schedule::IOType::IN_INT, L"INPUT_IDLE" });
 
 				//내용을 출력합니다.
@@ -257,6 +339,12 @@ namespace Manager
 							break;
 						case 4://ToDo를 편집합니다.
 							m_status = ScheduleStatus::MANAGE;
+							break;
+						case 5://저장합니다
+							m_status = ScheduleStatus::SAVE;
+							break;
+						case 6://불러옵니다
+							m_status = ScheduleStatus::LOAD;
 							break;
 						}
 					}
@@ -356,6 +444,39 @@ namespace Manager
 					StatusMgr->SetProgramWorkState(PROGRAM_WORK_STATE::CONSOLIN);
 					return -1;
 				}
+
+				//IDLE로 돌아갑니다.
+				m_status = ScheduleStatus::IDLE;
+			}
+				break;
+			case ScheduleStatus::SAVE:
+			{
+				TCHAR programpathBuffer[_MAX_PATH];
+				GetCurrentDirectory(_MAX_PATH, programpathBuffer);
+
+				std::wstring programpath(programpathBuffer);
+				std::wstring saveData;
+				if (CreateSaveData(saveData))
+				{
+					Study_IO::DataSave(programpath + L"\\ToDoSaveFile", saveData);
+				}
+
+				//IDLE로 돌아갑니다.
+				m_status = ScheduleStatus::IDLE;
+			}
+				break;
+			case ScheduleStatus::LOAD:
+			{
+				//프로그램 실행 경로를 가져와서 파일을 읽어들일 필요가 있는 대상은 해당 경로로부터 정보를 읽어들입니다.
+				TCHAR programpathBuffer[_MAX_PATH];
+				GetCurrentDirectory(_MAX_PATH, programpathBuffer);
+
+				std::wstring programpath(programpathBuffer);
+				std::wstring loadedData;
+
+				Study_IO::DataLoad(programpath + L"\\ToDoSaveFile", loadedData);
+
+				SetLoadedData(loadedData);
 
 				//IDLE로 돌아갑니다.
 				m_status = ScheduleStatus::IDLE;

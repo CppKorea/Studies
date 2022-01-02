@@ -31,6 +31,7 @@ namespace Manager
 		public:
 			//생성할 때 초기값으로 
 			explicit Study_Task(std::wstring& _string);
+			explicit Study_Task(std::wstring& _status, std::wstring& _string);
 			Study_Task(const Study_Task& /*_classObject*/) = delete;
 			Study_Task(Study_Task&& /*_classObject*/) = delete;
 			virtual ~Study_Task();
@@ -46,6 +47,8 @@ namespace Manager
 			void GetString(std::wstring& _string);
 			//ToDO 전체 내용 획득 함수
 			void GetFullData(std::wstring& _string);
+			//저장용 데이터 형태로 출력
+			void CreateSaveData(std::wstring& _string);
 
 		private:
 			//ToDo 상태

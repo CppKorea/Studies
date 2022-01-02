@@ -16,31 +16,35 @@
 
 namespace Manager
 {
-
+	//Schedule 객체의 상태를 표현하는 enum입니다.
 	enum class ScheduleStatus
 	{
-		INITIALIZE
-		, IDLE
-		, ADD
-		, REMOVE
-		, MANAGE
+		INITIALIZE //초기화 중입니다.
+		, IDLE //기본 대기상태 입니다.
+		, ADD // ToDo를 추가중입니다.
+		, REMOVE // ToDo를 삭제중입니다.
+		, MANAGE // ToDo를 관리중입니다.
+		, SAVE // ToDo를 저장합니다
+		, LOAD // ToDo를 불러옵니다.
 		, END
 	};
 
 	class Study_Schedule
 	{
 	public:
+		//입출력 형태를 표현하는 enum입니다.
 		enum class IOType
 		{
-			OUT_TEXT
-			, OUT_TITLE
-			, OUT_CUSTOMTEXT
-			, IN_INT
-			, IN_FLOAT
-			, IN_TEXT
-			, SHOW_LIST
+			OUT_TEXT // 글자를 출력합니다.
+			, OUT_TITLE // 제목을 출력합니다.
+			, OUT_CUSTOMTEXT // 임의의 문자열을 단순 출력 합니다.
+			, IN_INT // 정수값을 받아옵니다.
+			, IN_FLOAT // 실수값을 받아옵니다.
+			, IN_TEXT // 문자열 입력을 받습니다.
+			, SHOW_LIST // ToDo List를 출력합니다.
 		};
 
+		//Schedule에서 입출력에 대해 처리하는 객체를 정의합니다.
 		struct Schedule_IO_Setup
 		{
 			Schedule_IO_Setup(IOType _type)
@@ -125,12 +129,19 @@ namespace Manager
 			{
 			}
 
+			//어떻게 동작할지 정의된 Enum입니다.
 			IOType type;
+			//값이 잘못된 내용이 있는지 검사하는 bool입니다.
 			bool valied;
+			//Localize에서 검색할 키값입니다.
 			std::wstring textkey;
+			//출력할 문자열입니다.
 			std::wstring text;
+			//입력받는 정수값을 저장하는 위치입니다.
 			int input_int;
+			//입력받는 실수값을 저장하는 위치입니다.
 			float input_float;
+			//입력받는 문자열을 저장하는 위치입니다.
 			std::wstring input_text;
 		};
 
@@ -154,6 +165,12 @@ namespace Manager
 		//입출력 관련 처리 절차 수행
 		int ProcessIOSetupList(std::vector<Schedule_IO_Setup>& _list);
 		
+		//불러온 데이터 세팅 함수
+		void SetLoadedData(std::wstring& _loadedData);
+
+		//저장할 데이터 생성 함수
+		bool CreateSaveData(std::wstring& _createdData);
+
 		//게임 로직 실행
 		int Run();
 
