@@ -69,7 +69,7 @@ namespace Manager
 			//찾아낸 데이터가 없지만 프로그램 자체를 실행하는데 문제가 없도록 빈 문자를 표현하는 임의의 글자를 반환값에 싣습니다.
 			//에러 기록을 로그로 남기고 빠져나갑니다.
 			_Result = L"####";
-			std::wstring CreateErrorMessage(L"!!!Cannot Find String Data!!! | Key : " + _stringKey);
+			std::wstring CreateErrorMessage(L"!!!Cannot Find String Data!!! | Key : " + _stringKey + L"\n");
 			OutputDebugStringW(CreateErrorMessage.c_str());
 		}
 

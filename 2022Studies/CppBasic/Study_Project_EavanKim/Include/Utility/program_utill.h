@@ -11,7 +11,8 @@ namespace Manager
 		GetCurrentDirectory(_MAX_PATH, programpath);
 
 		Status::Initialize_Mgr();
-		Study_Localize::Initialize_Mgr(programpath, L"Resource\\Localize_Ko");
+		Study_Localize::Initialize_Mgr(programpath, L"Resource\\Localize_En");
+		//Study_Localize::Initialize_Mgr(programpath, L"Resource\\Localize_Ko");
 	}
 
 	//전역 관리 객체를 한 번에 해제 하는 함수입니다.

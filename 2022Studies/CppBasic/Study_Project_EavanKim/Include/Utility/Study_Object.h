@@ -99,6 +99,7 @@ namespace Default
 			_Dest.data->IncreaseReference();
 		}
 
+		//함수 동작에 필요해서 추가 작성되었습니다.
 		Default::Study_Ptr<T>& operator =(const Default::Study_Ptr<T>& _Check)
 		{
 			this->data = _Check.data;

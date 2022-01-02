@@ -126,7 +126,7 @@ namespace Manager
 		static bool WaitInput(const std::wstring& _message, std::wstring& _getBuffer)
 		{
 			_getBuffer.clear();
-			std::wcout << _message + L"(문자열을 입력 해 주세요) :" << std::endl;
+			std::wcout << _message + L" :" << std::endl;
 			std::wcin >> _getBuffer;
 
 			if (_getBuffer.length())
@@ -138,7 +138,7 @@ namespace Manager
 		//사용자 입력을 받아들여서 처리합니다.
 		static bool WaitInput(const std::wstring& _message, int& _get)
 		{
-			std::wcout << _message + L"(정수값을 입력 해 주세요) :" << std::endl;
+			std::wcout << _message + L" :" << std::endl;
 			std::wcin >> _get;
 
 			return true;
@@ -147,7 +147,7 @@ namespace Manager
 		//사용자 입력을 받아들여서 처리합니다.
 		static bool WaitInput(const std::wstring& _message, float& _get)
 		{
-			std::wcout << _message + L"(실수값을 입력 해 주세요) :" << std::endl;
+			std::wcout << _message + L" :" << std::endl;
 			std::wcin >> _get;
 
 			return true;

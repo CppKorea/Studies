@@ -10,6 +10,7 @@
 * 코드 작성에 대한 방법은 참조하시지 마시고 이런 생각이 있구나 정도만 참고하여 주십시오.
 * 
 * Schedule Manager
+* ToDo와 1:1로 매칭되는 Task 객체를 관리하는 객체입니다.
 * 
 */
 
@@ -141,10 +142,10 @@ namespace Manager
 		int ShowTaskList(bool _Interrupt = false);
 
 		//ToDo List에 입력받은 글자를 입력한 새로운 Task를 생성한다.
-		bool AddTask(std::wstring _Task);
+		void AddTask(std::wstring _Task);
 		
 		//ToDo List에서 대상을 바로 삭제합니다.
-		bool RemoveTask(int _Task);
+		void RemoveTask(int _Task);
 
 		//Task Setup Process.
 		//안에서 ProcessIOSetupList를 수행하면서 입력을 받아 처리
