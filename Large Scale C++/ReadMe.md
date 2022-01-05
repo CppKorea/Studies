@@ -3,12 +3,14 @@
 
 ### 책
 
-[Large-Scale C++ Volume I: Process and Architecture (Addison-Wesley)](https://www.amazon.com/dp/0201717069/ref=cm_sw_em_r_mt_dp_AHKJQW7J9Q3YN42RYZ36?_encoding=UTF8&psc=1)
-by John Debbie Lafferty (Author), John Lakos (Author), John Fuller (Series Editor)
+책을 읽고 리뷰하는 스터디이므로 Kindle E-book으로 구매해서 참여하셔도 무방합니다.
 
-Kindle E-book 있음
+* [Large-Scale C++ Volume I: Process and Architecture (Addison-Wesley)](https://www.amazon.com/dp/0201717069/ref=cm_sw_em_r_mt_dp_AHKJQW7J9Q3YN42RYZ36?_encoding=UTF8&psc=1)  
+  by John Debbie Lafferty, John Lakos, John Fuller
 
 #### 목차 (진행 범위)
+
+##### Volume 1 (1024 pages)
 
 1. Motivation
 2. Compilers, Linkers, Components
@@ -52,9 +54,14 @@ Kindle E-book 있음
 
 ### 진행기간
 
-#### 시즌 1
+#### Season 1
 
-N주간 진행합니다.
+1~2 챕터를 6주간 진행합니다.
 
-2022-01-15 (토) ~ 2022-03-05 (토)
+* 2022-01-15 ~ 2022-02-19 (6회)
+* 토요일 오전 10시~11시+ (약 1시간)
 
+### 진행 방법
+
+* 매 주마다 정해진 부분을 읽고 와서 의견교환
+* 개발 환경, 단계별 workflow를 설계해본다
