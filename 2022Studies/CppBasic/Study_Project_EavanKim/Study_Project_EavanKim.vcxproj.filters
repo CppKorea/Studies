@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일\Include">
+      <UniqueIdentifier>{1bb3d578-8349-4218-84f6-737ecc1cb18a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Include\Grouping">
+      <UniqueIdentifier>{e2d214a5-1b78-49b1-a11d-f1eb7693e976}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Src">
+      <UniqueIdentifier>{1d84d658-8cb2-4c9b-b3c6-8463c41659d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Include\Utility">
+      <UniqueIdentifier>{b2043a0c-4ab3-4fd4-9fa1-7c11d36c0f64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Src\Utility">
+      <UniqueIdentifier>{126cb70f-cc49-4375-be9a-ad019b05497d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Include\Function">
+      <UniqueIdentifier>{f80c5e83-6970-4479-b9e6-f2b3ac575fff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Src\Function">
+      <UniqueIdentifier>{aa904336-ff4f-49a3-8c3b-a9afb0ba8054}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Study_Project_EavanKim.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Function\Study_Schedule.cpp">
+      <Filter>소스 파일\Src\Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Utility\Study_Localize.cpp">
+      <Filter>소스 파일\Src\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Utility\Study_Status.cpp">
+      <Filter>소스 파일\Src\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Function\Study_Task.cpp">
+      <Filter>소스 파일\Src\Function</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\Grouping\headers_custom.h">
+      <Filter>헤더 파일\Include\Grouping</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Grouping\headers_std.h">
+      <Filter>헤더 파일\Include\Grouping</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utility\Study_IO.h">
+      <Filter>헤더 파일\Include\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utility\Study_Localize.h">
+      <Filter>헤더 파일\Include\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utility\Study_Status.h">
+      <Filter>헤더 파일\Include\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utility\program_utill.h">
+      <Filter>헤더 파일\Include\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Function\Study_Schedule.h">
+      <Filter>헤더 파일\Include\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Function\Study_Task.h">
+      <Filter>헤더 파일\Include\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utility\Study_Object.h">
+      <Filter>헤더 파일\Include\Utility</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Resource\Localize_En">
+      <Filter>리소스 파일</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Resource\Localize_Ko">
+      <Filter>리소스 파일</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
+</Project>
