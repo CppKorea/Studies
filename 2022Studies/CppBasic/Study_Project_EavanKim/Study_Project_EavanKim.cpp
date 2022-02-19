@@ -19,13 +19,15 @@
 //HDD에 저장된 프로그램을 Memory에 올리면서 호출하도록 되어있는 코드입니다.
 int main()
 {
+	Manager::Study_Schedule ProgramObject;
+
 	//ExitCode는 Windows OS에서 이 프로그램이 종료했을때 올바르게 종료되었나 아닌가를 판단하는데 사용됩니다.
 	//0은 아무 이상 없이 잘 종료되었다는 표시입니다.
 	//Windows에서 사용하는 에러코드를 따르므로 MSDN등에서 에러코드를 찾아보고 올바르게 처리하거나, 잘 정리해서 사용해야 합니다.
 	int ExitCode = 0;
 	std::locale::global(std::locale("ko_KR.UTF-8"));
 	//전역에서 사용되는 Manager Namespace아래의 객체를 생성하도록 지시합니다.
-	Manager::Initialize();
+	Manager::Initialize(&ProgramObject);
 
 	//프로그램은 기본적으로 Status가 정상이 아니라면(할당에 실패해서 nullptr이 되어버린다면) 종료되도록 false상태로 만듭니다.
 	bool ProgramRun = false;
@@ -36,7 +38,6 @@ int main()
 	if (nullptr != StatusMgr)
 		ProgramRun = StatusMgr->CheckProgramRunSanity();	//실행이 가능한 상태가 확인되면 여기서 프로그램 실행 체크가 True가 됩니다.
 
-	Manager::Study_Schedule ProgramObject;
 
 	try
 	{

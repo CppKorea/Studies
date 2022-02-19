@@ -41,6 +41,7 @@ namespace Manager
 			, IN_INT // 정수값을 받아옵니다.
 			, IN_FLOAT // 실수값을 받아옵니다.
 			, IN_TEXT // 문자열 입력을 받습니다.
+			, IN_SUSPEND // 멈추기 위한 의미없는 입력입니다.
 			, SHOW_LIST // ToDo List를 출력합니다.
 		};
 

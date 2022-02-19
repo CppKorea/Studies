@@ -8,6 +8,8 @@
 //내용이 산으로 갈 수 있기 때문입니다.
 #include <Windows.h>
 
+#include "Function/Study_FunctionMgr.h"
+
 #include "Utility/Study_Object.h"
 
 #include "Utility/Study_IO.h"

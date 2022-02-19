@@ -187,6 +187,9 @@ namespace Manager
 			case Manager::Study_Schedule::IOType::IN_TEXT: //문자열을 입력받는 동작입니다.
 				Study_IO::WaitInput(_list[Count].text, _list[Count].input_text);
 				break;
+			case Manager::Study_Schedule::IOType::IN_SUSPEND:
+				Study_IO::WaitInput(_list[Count].text, _list[Count].input_text);
+				break;
 			case Manager::Study_Schedule::IOType::SHOW_LIST: //리스트를 위에 출력하고 아래에서 동작하고 싶을때 쓰려고 정의되었습니다.
 				ShowTaskList();
 				break;

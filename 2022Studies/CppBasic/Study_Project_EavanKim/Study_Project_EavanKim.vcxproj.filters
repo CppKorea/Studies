@@ -51,6 +51,9 @@
     <ClCompile Include="Src\Function\Study_Task.cpp">
       <Filter>소스 파일\Src\Function</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Function\Study_FunctionMgr.cpp">
+      <Filter>소스 파일\Src\Function</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Grouping\headers_custom.h">
@@ -79,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="Include\Utility\Study_Object.h">
       <Filter>헤더 파일\Include\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Function\Study_FunctionMgr.h">
+      <Filter>헤더 파일\Include\Function</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
