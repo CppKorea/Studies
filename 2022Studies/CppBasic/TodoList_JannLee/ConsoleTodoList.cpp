@@ -4,8 +4,6 @@
 #include <fmt/format.h>
 
 
-// 지워야함
-#include <iostream>
 namespace practicalCpp
 {
     using std::cout;
@@ -59,7 +57,8 @@ namespace practicalCpp
         options_description removeOptions(translate("Remove Options"));
         removeOptions.add_options()
             ("help,h", translate("Print this help messages for remove command.").str().c_str())
-            ("id,i", value<int64_t>()->required(), translate("Task ID to be removed").str().c_str());
+            ("all,a", translate("Clear todo list").str().c_str())
+            ("id,i", value<int64_t>(), translate("Task ID to be removed").str().c_str());
         AddCommand({
             "remove", "r", translate("Remove todo item from the list"), removeOptions,
             [this](const variables_map& variables, const options_description& description)
@@ -69,11 +68,22 @@ namespace practicalCpp
                 {
                     cout << description << "\n";
                 }
-                else
+
+                if (variables.count("all"))
+                {
+                    taskList_.Clear();
+                    SetStatus(filePath_.u8string() + "*");
+                    cout << format(translate("Cleared todo list\n\n").str());
+                }
+                else if (variables.count("id"))
                 {
                     const auto id = variables["id"].as<int64_t>();
                     taskList_.RemoveTask(id);
                     cout << format(translate("Removed #{} task\n\n").str(), id);
+                }
+                else
+                {
+                    cout << format(translate("ERROR: Task ID is required\n\n").str());
                 }
 
                 SetStatus(filePath_.u8string() + "*");
@@ -171,7 +181,7 @@ namespace practicalCpp
             ("path,p", value<std::filesystem::path>(), translate("File path to be loaded").str().c_str());
 
         AddCommand({
-            "load", "l", translate("load todo list from the file"), loadOptions,
+            "load", "l", translate("Load todo list from the file"), loadOptions,
             [this](const variables_map& variables, const options_description& description)
             ->pair<int, ConsoleCli::NextAction>
             {
@@ -194,26 +204,5 @@ namespace practicalCpp
                 return make_pair(0, NextAction::WAIT_INPUT);
             }
         });
-
-        AddCommand({
-            "clear", "c", translate("clear todo list"), loadOptions,
-            [this](const variables_map& variables, const options_description& description)
-            ->pair<int, ConsoleCli::NextAction>
-            {
-                if (variables.count("help"))
-                {
-                    cout << description << "\n";
-                }
-                else
-                {
-                    taskList_.Clear();
-                    SetStatus(filePath_.u8string() + "*");
-                    cout << format(translate("Cleared todo list\n\n").str());
-                }
-
-                return make_pair(0, NextAction::WAIT_INPUT);
-            }
-        });
-
     }
 }

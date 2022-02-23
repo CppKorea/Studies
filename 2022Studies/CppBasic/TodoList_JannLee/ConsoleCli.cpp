@@ -61,6 +61,7 @@ namespace practicalCpp
     {
         for (std::string commandLine; cout << format("{}>", status_) && std::getline(std::cin, commandLine);)
         {
+            std::cin.clear();
             using std::logic_error;
             try
             {
@@ -94,7 +95,7 @@ namespace practicalCpp
                     }
                     if (!isCommandFound)
                     {
-                        throw logic_error(format(translate("{} is unknown command").str(), commandOptions[0]));
+                        throw logic_error(format(translate("{} is unknown command.").str(), commandOptions[0]));
                     }
                 }
                 else
