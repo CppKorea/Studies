@@ -1,0 +1,145 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ja_JP\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.0.1\n"
+
+msgid "{} is unknown command."
+msgstr "{}不明な命令です。"
+
+msgid "\nType \"<Command> --help\" to see the details of command usage.\n\n"
+msgstr "\n該当する命令の詳細な使用方法は\"<コマンド> --help\"と入力してください。\n\n"
+
+msgid "Add Options"
+msgstr "Addオプション"
+
+msgid "Add todo item to the list."
+msgstr "タスクをリストに追加します。"
+
+msgid "Added new task\n"
+msgstr "新しいことを追加しました。\n"
+
+msgid "Clear screen."
+msgstr "画面を消去します。"
+
+msgid "Clear todo list"
+msgstr "やることリストをすべて削除します"
+
+msgid "Cleared todo list\n\n"
+msgstr "やることリストをすべて削除しました\n\n"
+
+msgid "Command Options\n"
+msgstr "命令オプション\n"
+
+msgid "Console TodoList\n"
+msgstr "タスクリスト管理コンソールプログラム\n"
+
+msgid "ERROR: {}\n\n"
+msgstr "エラー: {}\n\n"
+
+msgid "ERROR: Task ID is required\n\n"
+msgstr "エラー：ジョブIDが必要です。\n\n"
+
+msgid "Exit this program."
+msgstr "このプログラムを終了します。"
+
+msgid "File path to be loaded"
+msgstr "ロードするファイルパス"
+
+msgid "File path to be saved"
+msgstr "保存したいファイルパス"
+
+msgid "ID #{} is not found from todo list."
+msgstr "ID#{} することがリストにありません。"
+
+msgid "List up todo items from the list."
+msgstr "リストからやるべきことをすべて出力します。"
+
+msgid "Load Options"
+msgstr "Load オプション"
+
+msgid "Load todo list from the file"
+msgstr "ファイルからToDoリストをロードします"
+
+msgid "Loaded file: {}\n"
+msgstr "{}ファイルをロードしました。\n"
+
+msgid "MultiByteToWideChar Error with {}"
+msgstr "MultiByteToWideCharエラーが発生しました（{}）"
+
+msgid "Print this help message."
+msgstr "このヘルプを出力します。"
+
+msgid "Print this help messages for add command."
+msgstr "このAddコマンドヘルプを出力します。"
+
+msgid "Print this help messages for load command."
+msgstr "このLoad命令ヘルプを出力します。"
+
+msgid "Print this help messages for remove command."
+msgstr "このRemove命令ヘルプを出力します。"
+
+msgid "Print this help messages for save command."
+msgstr "この Save 命令ヘルプを出力します。"
+
+msgid "Print this help messages for update command."
+msgstr "このUpdateコマンドヘルプを出力します。"
+
+msgid "Remove Options"
+msgstr "Remove オプション"
+
+msgid "Remove todo item from the list"
+msgstr "リストから対応する作業を削除します"
+
+msgid "Removed #{} task\n\n"
+msgstr "#{} ジョブを削除しました\n\n"
+
+msgid "Save Options"
+msgstr "Save オプション"
+
+msgid "Save todo list to the file"
+msgstr "ファイルにToDoリストを保存します"
+
+msgid "Saved file: {}\n\n"
+msgstr "{}ファイルを保存しました。\n\n"
+
+msgid "Task ID to be removed"
+msgstr "削除するジョブID"
+
+msgid "Task ID to be updated"
+msgstr "更新するジョブID"
+
+msgid "Task state to be updated"
+msgstr "更新するジョブの状態"
+
+msgid "Task state(todo|doing|done)"
+msgstr "ジョブの状態(todo|doing|done)"
+
+msgid "Task title"
+msgstr "ジョブタイトル"
+
+msgid "Task title to be updated"
+msgstr "更新するジョブのタイトル"
+
+msgid "Unknown next action has occured."
+msgstr "不明な次のアクションが発生しました。"
+
+msgid "Update Options"
+msgstr "Update オプション"
+
+msgid "updated #{} task\n\n"
+msgstr "#{}ジョブ\n\n"
+
+msgid "Usage: <Command> [<args>]\n\n"
+msgstr "使用法: <コマンド> [<追加オプション>]\n\n"
+
+msgid "WideCharToMultiByte Error with {}"
+msgstr "WideCharToMultiByteエラーが発生しました（{}）"
