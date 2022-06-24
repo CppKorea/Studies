@@ -3,6 +3,8 @@
 
 안녕하세요, C++ Korea에서 이번에 "C++ 라이브러리 훑어보기" 스터디를 진행합니다. 이와 관련해 안내드리고자 합니다.
 
+**문의 연락처**
+
 * **[contact@cppkorea.org](mailto:contact@cppkorea.org)**
 * [luncliff@cppkorea.org](mailto:luncliff@cppkorea.org)
 * [gybang@cppkorea.org](mailto:gybang@cppkorea.org)
@@ -33,6 +35,7 @@
 
 참여인원들의 일정이 허용한다면 오프라인으로 모임을 가질 수 있습니다.
 (주말 아침부터 기차를 타고 이동할 준비가 되셨나요?)
+온라인 모임은 스터디를 진행하는 운영진이 [Zoom](https://zoom.us/)미팅을 개설하여 참여인원들을 초대하는 방법으로 진행합니다.
 
 스터디 모임은 아래와 같이 총 7회를 계획하고 있으며, 세부적인 날짜와 시각은 1일차 모임에서 결정할 예정입니다.
 
