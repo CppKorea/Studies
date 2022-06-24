@@ -9,7 +9,7 @@
 * [luncliff@cppkorea.org](mailto:luncliff@cppkorea.org)
 * [gybang@cppkorea.org](mailto:gybang@cppkorea.org)
 
-### 목표/진행방식
+### 목표 / 진행 방식
 
 책을 한권 정하여 내용을 분할하여 진행하는 스터디에서는 개개인이 담당한 구간만 집중적으로 공부하게 되는 한계가 있었습니다.
 
